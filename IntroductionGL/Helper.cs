@@ -9,7 +9,7 @@ public struct Point {
     public float X { get; set; }
 
     //: Координата Y
-    public float Y { get; set; }
+    public float Y { get; set; } 
 
     //: Размер вершины
     public float Size { get; set; } = 10f;
