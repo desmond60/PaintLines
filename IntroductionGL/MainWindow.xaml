@@ -1,0 +1,143 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wpf="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
+        
+        xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="IntroductionGL.MainWindow"
+        xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"    
+    
+        Title="PaintLines" 
+        Height="540" Width="960"
+        MinHeight="640" MinWidth="960"
+        
+        KeyDown="Grid_KeyDown">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" MaxWidth="300" MinWidth="300" />
+        </Grid.ColumnDefinitions>
+
+        <wpf:OpenGLControl 
+                MouseDown="OpenGLControl_MouseDown"
+                Grid.Column="0"
+                x:Name="openGLControl1" 
+                OpenGLDraw="openGLControl1_OpenGLDraw" 
+                Resized="openGLControl1_Resized" 
+                OpenGLInitialized="openGLControl1_OpenGLInitialized"
+                RenderContextType="FBO"
+                Focusable = "true"/>
+        <Canvas x:Name="canvas" Grid.Column="1" 
+                Background="#FFC4C4C8">
+            <ComboBox x:Name="ComboBoxCollPrimitives"
+                      SelectionChanged="ComboBoxCollPrimitives_SelectionChanged"
+                      Canvas.Left="81" 
+                      Canvas.Top="36" 
+                      Width="120" 
+                      HorizontalAlignment="Left" 
+                      VerticalAlignment="Center" />
+            <ComboBox x:Name="ComboBoxPrimitives"
+                      SelectionChanged="ComboBoxPrimitives_SelectionChanged"
+                      Canvas.Left="81" 
+                      Canvas.Top="89" 
+                      Width="120"
+                      IsEnabled="false" 
+                      HorizontalAlignment="Left" 
+                      VerticalAlignment="Center"/>
+            <Button x:Name="DeletePrimitive"
+                    Content="Удалить" 
+                    Canvas.Left="226" 
+                    Canvas.Top="157"
+                    Click="DeletePrimitive_Click"/>
+            <Button x:Name="DeleteCollPrimitives"
+                    Content="Удалить" 
+                    Canvas.Left="226" 
+                    Canvas.Top="131"
+                    Click="DeleteCollPrimitives_Click"
+                    IsEnabled="False"/>
+            <Label Content="Выбрать набор примитивов:" 
+                   Canvas.Left="50" 
+                   Canvas.Top="10" 
+                   HorizontalAlignment="Right" 
+                   VerticalAlignment="Center" 
+                   FontFamily="Times New Roman" 
+                   FontWeight="Bold" FontSize="14" />
+            <Label Content="Выбрать примитив:" 
+                   Canvas.Left="72" 
+                   Canvas.Top="58" 
+                   HorizontalAlignment="Right" 
+                   VerticalAlignment="Top" 
+                   FontFamily="Times New Roman" 
+                   FontWeight="Bold" FontSize="14" />
+            <Label Content="Удалить набор примитивов:" 
+                   Canvas.Left="7" 
+                   Canvas.Top="128" 
+                   HorizontalAlignment="Right" 
+                   VerticalAlignment="Top" 
+                   FontFamily="Times New Roman" 
+                   FontWeight="Bold" FontSize="14" />
+            <Label Content="Удалить примитив:" 
+                   Canvas.Left="7" 
+                   Canvas.Top="154" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   FontFamily="Times New Roman" 
+                   FontWeight="Bold" FontSize="14" />
+            <Label Content="Ширина линии" 
+                   Canvas.Left="7" 
+                   Canvas.Top="180" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   FontFamily="Times New Roman" 
+                   FontWeight="Bold" FontSize="14" />
+            <Slider x:Name="SliderLineWidth"
+                    Canvas.Left="122" 
+                    Canvas.Top="184" 
+                    Width="120" 
+                    Minimum="1" 
+                    Value="1" 
+                    ValueChanged="SliderLineWidth_ValueChanged"
+                    Cursor="Hand"/>
+            <TextBlock x:Name="TextBoxLineWidth"
+                       Text="1.0"
+                       Canvas.Left="250" 
+                       Canvas.Top="185"/>
+            <Label Content="Тип линии" 
+                   Canvas.Left="7" 
+                   Canvas.Top="206" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Center" 
+                   FontFamily="Times New Roman" 
+                   FontWeight="Bold" FontSize="14" />
+            <ComboBox x:Name="ComboBoxTypeLine"
+                      SelectionChanged="ComboBoxTypeLine_SelectionChanged"
+                      Canvas.Left="122" 
+                      Canvas.Top="208" 
+                      Width="120" 
+                      SelectedIndex="0">
+                <ComboBoxItem Content="Обычный"/>
+                <ComboBoxItem Content="Точечный"/>
+                <ComboBoxItem Content="Штриховой"/>
+                <ComboBoxItem Content="Штрихпунктирный"/>
+            </ComboBox>
+            <colorpicker:StandardColorPicker x:Name="ColorPicker"
+                                             ColorChanged="ColorPicker_ColorChanged"
+                                             Width="200" 
+                                             Height="380"
+                                             Canvas.Left="41" 
+                                             Canvas.Top="237" 
+                                             HorizontalAlignment="Left" 
+                                             VerticalAlignment="Center"/>
+            <ComboBox x:Name="ComboBoxPoints"
+                      SelectionChanged="ComboBoxPoints_SelectionChanged"
+                      Canvas.Left="206" 
+                      Canvas.Top="89"
+                      Width="80"
+                      IsEnabled="false"
+                      HorizontalAlignment="Left"/>
+            
+        </Canvas>
+
+
+    </Grid>
+</Window>

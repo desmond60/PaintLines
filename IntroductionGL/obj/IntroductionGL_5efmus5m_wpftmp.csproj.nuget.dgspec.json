@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Все для учебы\\7 семестр\\Компьютерная графика\\Labs\\IntroductionGL\\IntroductionGL\\IntroductionGL.csproj": {}
+  },
+  "projects": {
+    "D:\\Все для учебы\\7 семестр\\Компьютерная графика\\Labs\\IntroductionGL\\IntroductionGL\\IntroductionGL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Все для учебы\\7 семестр\\Компьютерная графика\\Labs\\IntroductionGL\\IntroductionGL\\IntroductionGL.csproj",
+        "projectName": "IntroductionGL",
+        "projectPath": "D:\\Все для учебы\\7 семестр\\Компьютерная графика\\Labs\\IntroductionGL\\IntroductionGL\\IntroductionGL.csproj",
+        "packagesPath": "C:\\Users\\artyu\\.nuget\\packages\\",
+        "outputPath": "D:\\Все для учебы\\7 семестр\\Компьютерная графика\\Labs\\IntroductionGL\\IntroductionGL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\artyu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "SharpGL": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "SharpGL.WPF": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
