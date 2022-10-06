@@ -21,6 +21,7 @@
         <wpf:OpenGLControl 
                 x:Name="openGLControl1" 
                 MouseDown="OpenGLControl_MouseDown"
+                MouseUp="openGLControl1_MouseUp"
                 MouseWheel="openGLControl1_MouseWheel"
                 Grid.Column="0"
                 OpenGLDraw="openGLControl1_OpenGLDraw" 
@@ -124,7 +125,7 @@
                       SelectionChanged="ComboBoxTypeLine_SelectionChanged"
                       Canvas.Left="122" 
                       Canvas.Top="208" 
-                      Width="120" 
+                      Width="132" 
                       SelectedIndex="0">
                 <ComboBoxItem Content="Обычный"/>
                 <ComboBoxItem Content="Точечный"/>
@@ -146,8 +147,8 @@
                       Width="80"
                       IsEnabled="false"
                       HorizontalAlignment="Left"/>
-            <Label Content="Изменить цвет:" 
-                   Canvas.Left="90" 
+            <Label Content="Изменить параметры у" 
+                   Canvas.Left="70" 
                    Canvas.Top="230" 
                    HorizontalAlignment="Left" 
                    VerticalAlignment="Top" 
@@ -160,7 +161,8 @@
                 Canvas.Top="258"
                 FontFamily="Times New Roman" 
                 FontWeight="Bold" FontSize="12" 
-                FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"/>
+                FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"
+                IsEnabled="False"/>
             <RadioButton
                 x:Name="RadioButtonPrim"
                 Content="Нового примитива" 
@@ -169,7 +171,8 @@
                 FontFamily="Times New Roman" 
                 FontWeight="Bold" FontSize="12"
                 IsChecked="True" 
-                FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"/>
+                FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"
+                IsEnabled="False"/>
 
             
         </Canvas>

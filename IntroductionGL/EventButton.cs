@@ -38,13 +38,18 @@ public partial class MainWindow : Window {
                 }
             }
             // Удаление последнего приитива при создании или редактировании набора
-            else if (!isEditingModePrim && isCreateColPrim) {
+            else if (!isEditingModePrim && isCreateColPrim && isEditingModeColPrim) {
                 ComboBoxPrimitives.Items.Remove(Primitives[^1].Name);
                 Primitives.Remove(Primitives[^1]);
                 Points.Remove(Points[^1]);
                 Points.Remove(Points[^1]);
                 int index = CollPrimitives.IndexOf(CollPrimitives.Find(s => s.Name == name_item_ComBox_CollPrim));
                 CollPrimitives[index] = CollPrimitives[index] with { Primitives = Primitives };
+            }
+            else if (!isEditingModePrim && isCreateColPrim && !isEditingModeColPrim) {
+                Primitives.Remove(Primitives[^1]);
+                Points.Remove(Points[^1]);
+                Points.Remove(Points[^1]);
             }
         }
     }

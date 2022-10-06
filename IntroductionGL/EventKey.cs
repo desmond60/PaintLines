@@ -31,8 +31,8 @@ public partial class MainWindow : Window
 
                     SliderLineWidth.IsEnabled    = true;
                     ComboBoxTypeLine.IsEnabled   = true;
-                    RadioButtonColPrim.IsEnabled = true;
-                    RadioButtonPrim.IsEnabled    = true;
+                    RadioButtonColPrim.IsEnabled = false;
+                    RadioButtonPrim.IsEnabled    = false;
                     /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
                 }
             }
@@ -73,8 +73,8 @@ public partial class MainWindow : Window
 
                     SliderLineWidth.IsEnabled    = true;
                     ComboBoxTypeLine.IsEnabled   = true;
-                    RadioButtonColPrim.IsEnabled = true;
-                    RadioButtonPrim.IsEnabled    = true;
+                    RadioButtonColPrim.IsEnabled = false;
+                    RadioButtonPrim.IsEnabled    = false;
                     /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
                 }
             }
@@ -87,9 +87,13 @@ public partial class MainWindow : Window
                 for (int i = 0; i < Primitives.Count(); i++) {
                     Point new_fpoint = new Point(Primitives[i].fPoint.X, Primitives[i].fPoint.Y + speed_point.Y);
                     Point new_spoint = new Point(Primitives[i].sPoint.X, Primitives[i].sPoint.Y + speed_point.Y);
-                    Primitives[i] = Primitives[i] with { fPoint = new_fpoint, sPoint = new_spoint };
-                    Points.Add(Primitives[i].fPoint);
-                    Points.Add(Primitives[i].sPoint);
+                    Primitives[i] = Primitives[i] with 
+                    { 
+                        fPoint = new_fpoint with { color = Primitives[i].fPoint.color }, 
+                        sPoint = new_spoint with { color = Primitives[i].sPoint.color }
+                    };
+                    Points.Add(Primitives[i].fPoint with { color = DefColor });
+                    Points.Add(Primitives[i].sPoint with { color = DefColor });
                 }
             else { // Перемещение примитива
                 Points.Clear();
@@ -98,9 +102,13 @@ public partial class MainWindow : Window
                 Point new_spoint = new Point(tempPrim.sPoint.X, tempPrim.sPoint.Y + speed_point.Y);
 
                 int index_prim = Primitives.IndexOf(tempPrim);
-                Primitives[index_prim] = Primitives[index_prim] with { fPoint = new_fpoint, sPoint = new_spoint };
-                Points.Add(Primitives[index_prim].fPoint);
-                Points.Add(Primitives[index_prim].sPoint);
+                Primitives[index_prim] = Primitives[index_prim] with 
+                { 
+                    fPoint = new_fpoint with { color = Primitives[index_prim].fPoint.color }, 
+                    sPoint = new_spoint with { color = Primitives[index_prim].sPoint.color }
+                };
+                Points.Add(Primitives[index_prim].fPoint with { color = DefColor });
+                Points.Add(Primitives[index_prim].sPoint with { color = DefColor });
             }
         }
 
@@ -111,9 +119,13 @@ public partial class MainWindow : Window
                 for (int i = 0; i < Primitives.Count(); i++) {
                     Point new_fpoint = new Point(Primitives[i].fPoint.X, Primitives[i].fPoint.Y - speed_point.Y);
                     Point new_spoint = new Point(Primitives[i].sPoint.X, Primitives[i].sPoint.Y - speed_point.Y);
-                    Primitives[i] = Primitives[i] with { fPoint = new_fpoint, sPoint = new_spoint };
-                    Points.Add(Primitives[i].fPoint);
-                    Points.Add(Primitives[i].sPoint);
+                    Primitives[i] = Primitives[i] with 
+                    { 
+                        fPoint = new_fpoint with { color = Primitives[i].fPoint.color }, 
+                        sPoint = new_spoint with { color = Primitives[i].sPoint.color }
+                    };
+                    Points.Add(Primitives[i].fPoint with { color = DefColor });
+                    Points.Add(Primitives[i].sPoint with { color = DefColor });
                 }
             else { // Перемещение примитива
                 Points.Clear();
@@ -122,9 +134,13 @@ public partial class MainWindow : Window
                 Point new_spoint = new Point(tempPrim.sPoint.X, tempPrim.sPoint.Y - speed_point.Y);
 
                 int index_prim = Primitives.IndexOf(tempPrim);
-                Primitives[index_prim] = Primitives[index_prim] with { fPoint = new_fpoint, sPoint = new_spoint };
-                Points.Add(Primitives[index_prim].fPoint);
-                Points.Add(Primitives[index_prim].sPoint);
+                Primitives[index_prim] = Primitives[index_prim] with 
+                { 
+                    fPoint = new_fpoint with { color = Primitives[index_prim].fPoint.color }, 
+                    sPoint = new_spoint with { color = Primitives[index_prim].sPoint.color }
+                };
+                Points.Add(Primitives[index_prim].fPoint with { color = DefColor });
+                Points.Add(Primitives[index_prim].sPoint with { color = DefColor });
             }
         }
 
@@ -135,9 +151,13 @@ public partial class MainWindow : Window
                 for (int i = 0; i < Primitives.Count(); i++) {
                     Point new_fpoint = new Point(Primitives[i].fPoint.X - speed_point.X, Primitives[i].fPoint.Y);
                     Point new_spoint = new Point(Primitives[i].sPoint.X - speed_point.X, Primitives[i].sPoint.Y);
-                    Primitives[i] = Primitives[i] with { fPoint = new_fpoint, sPoint = new_spoint };
-                    Points.Add(Primitives[i].fPoint);
-                    Points.Add(Primitives[i].sPoint);
+                    Primitives[i] = Primitives[i] with 
+                    { 
+                        fPoint = new_fpoint with { color = Primitives[i].fPoint.color }, 
+                        sPoint = new_spoint with { color = Primitives[i].sPoint.color }
+                    };
+                    Points.Add(Primitives[i].fPoint with { color = DefColor });
+                    Points.Add(Primitives[i].sPoint with { color = DefColor });
                 }
             else { // Перемещение примтива
                 Points.Clear();
@@ -146,9 +166,13 @@ public partial class MainWindow : Window
                 Point new_spoint = new Point(tempPrim.sPoint.X - speed_point.X, tempPrim.sPoint.Y);
 
                 int index_prim = Primitives.IndexOf(tempPrim);
-                Primitives[index_prim] = Primitives[index_prim] with { fPoint = new_fpoint, sPoint = new_spoint };
-                Points.Add(Primitives[index_prim].fPoint);
-                Points.Add(Primitives[index_prim].sPoint);
+                Primitives[index_prim] = Primitives[index_prim] with 
+                { 
+                    fPoint = new_fpoint with { color = Primitives[index_prim].fPoint.color }, 
+                    sPoint = new_spoint with { color = Primitives[index_prim].sPoint.color }
+                };
+                Points.Add(Primitives[index_prim].fPoint with { color = DefColor });
+                Points.Add(Primitives[index_prim].sPoint with { color = DefColor });
             }
         }
 
@@ -159,9 +183,13 @@ public partial class MainWindow : Window
                 for (int i = 0; i < Primitives.Count(); i++) {
                     Point new_fpoint = new Point(Primitives[i].fPoint.X + speed_point.X, Primitives[i].fPoint.Y);
                     Point new_spoint = new Point(Primitives[i].sPoint.X + speed_point.X, Primitives[i].sPoint.Y);
-                    Primitives[i] = Primitives[i] with { fPoint = new_fpoint, sPoint = new_spoint };
-                    Points.Add(Primitives[i].fPoint);
-                    Points.Add(Primitives[i].sPoint);
+                    Primitives[i] = Primitives[i] with 
+                    { 
+                        fPoint = new_fpoint with { color = Primitives[i].fPoint.color },
+                        sPoint = new_spoint with { color = Primitives[i].sPoint.color }
+                    };
+                    Points.Add(Primitives[i].fPoint with { color = DefColor });
+                    Points.Add(Primitives[i].sPoint with { color = DefColor });
                 }
             else { // Перемещение примитива
                 Points.Clear();
@@ -170,9 +198,13 @@ public partial class MainWindow : Window
                 Point new_spoint = new Point(tempPrim.sPoint.X + speed_point.X, tempPrim.sPoint.Y);
 
                 int index_prim = Primitives.IndexOf(tempPrim);
-                Primitives[index_prim] = Primitives[index_prim] with { fPoint = new_fpoint, sPoint = new_spoint };
-                Points.Add(Primitives[index_prim].fPoint);
-                Points.Add(Primitives[index_prim].sPoint);
+                Primitives[index_prim] = Primitives[index_prim] with 
+                { 
+                    fPoint = new_fpoint with { color = Primitives[index_prim].fPoint.color }, 
+                    sPoint = new_spoint with { color = Primitives[index_prim].sPoint.color }
+                };
+                Points.Add(Primitives[index_prim].fPoint with { color = DefColor });
+                Points.Add(Primitives[index_prim].sPoint with { color = DefColor });
             }
 
         }

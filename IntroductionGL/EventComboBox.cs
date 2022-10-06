@@ -126,7 +126,7 @@ public partial class MainWindow : Window {
         }
 
         // Если вкл. режим редактирования набора примитива
-        if (isCreateColPrim && !isEditingModePrim && isEditingModeColPrim) {
+        if (isCreateColPrim && !isEditingModePrim && isEditingModeColPrim && RadioButtonColPrim.IsChecked!.Value) {
             for (int i = 0; i < Primitives.Count; i++)
                 Primitives[i] = Primitives[i] with { type = typeLine };
             return;

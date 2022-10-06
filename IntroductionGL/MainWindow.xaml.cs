@@ -36,7 +36,7 @@ public partial class MainWindow : Window
     // Начальное состояние OpenGl
     private void openGLControl1_OpenGLInitialized(object sender, OpenGLRoutedEventArgs args) {
         gl = args.OpenGL;
-        gl.ClearColor(255, 255, 255, 0);
+        gl.ClearColor(1, 1, 1, 0);
     }
 
     private void openGLControl1_OpenGLDraw(object sender, OpenGLRoutedEventArgs args) {
@@ -127,7 +127,14 @@ public partial class MainWindow : Window
             
     }
 
-    private void openGLControl1_Resized(object sender, OpenGLRoutedEventArgs args) { }
+    private void openGLControl1_Resized(object sender, OpenGLRoutedEventArgs args) {
+
+        gl.MatrixMode(MatrixMode.Projection);
+        gl.LoadIdentity();
+        gl.Ortho(0,openGLControl1.ActualWidth, openGLControl1.ActualHeight,0, 0,0);
+
+        gl.MatrixMode(MatrixMode.Modelview);
+    }
 
     private void ColorPicker_ColorChanged(object sender, RoutedEventArgs e) {
         curColor = new Color((byte)ColorPicker.Color.RGB_R, (byte)ColorPicker.Color.RGB_G, (byte)ColorPicker.Color.RGB_B);
@@ -175,19 +182,23 @@ public partial class MainWindow : Window
 
     private void openGLControl1_MouseWheel(object sender, MouseWheelEventArgs e)
     {
+
+        //gl.Viewport((int)(openGLControl1.ActualWidth / 2.0) - 50, (int)(openGLControl1.ActualHeight / 2.0) - 50, 100, 100);
+
+        //gl.Viewport(0, 0, 400, 400);
+
         if (e.Delta < 0)
         {
-            ScrollSize += 5;
-            gl.Scale(1.1, 1.1, 1.1);
+            
+/*            gl.Scale(0.9, 0.9, 0.9)
+            gl.Viewport(0, 0, (int)(openGLControl1.ActualWidth), (int)(openGLControl1.ActualHeight));*/
         }
         else {
-            ScrollSize -= 5;
-            gl.Scale(0.9, 0.9, 0.9);
+/*            gl.Scale(1.1, 1.1, 1.1);
+            gl.Viewport(0, 0, (int)(openGLControl1.ActualWidth), (int)(openGLControl1.ActualHeight));*/
         }
 
-        //gl.SetDimensions((int)(openGLControl1.ActualWidth + ScrollSize), (int)(openGLControl1.ActualHeight + ScrollSize));
-        //gl.Viewport(0, 0, (int)(openGLControl1.ActualWidth + ScrollSize), (int)(openGLControl1.ActualHeight + ScrollSize));
-
     }
+
 
 }

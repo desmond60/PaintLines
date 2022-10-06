@@ -85,5 +85,17 @@ public partial class MainWindow : Window {
             }
         }
 
+        if (e.RightButton == MouseButtonState.Pressed) {
+            gl.PushMatrix();
+            gl.Scissor(0, 0, 100, 100);
+            //gl.Scale(5, 5, 1);
+        }
+    }
+
+    private void openGLControl1_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+        if (e.RightButton == MouseButtonState.Released) {
+            gl.PopMatrix();
+        }
     }
 }
