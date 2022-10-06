@@ -138,6 +138,18 @@ public static class Helper
         DASHEDPOINT
     }
 
+    //: Getter for enum TypeLine
+    public static string GetTypeLine(TypeLine type) {
+        return type switch
+        {
+            TypeLine.ORDINARY => "Обычный",
+            TypeLine.POINT => "Точечный",
+            TypeLine.DASHED => "Штриховой",
+            TypeLine.DASHEDPOINT => "Штрихпунктирный",
+            _ => "Обычный"
+        };
+    }
+
     //: Создание точки примитиви в зависимости от размеров экрана
     public static Point Primitive_Coordinate(Point p, double width, double height) {
         float mid_x = (float)width  / 2.0f;

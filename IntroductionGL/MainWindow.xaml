@@ -7,8 +7,8 @@
         xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"    
     
         Title="PaintLines" 
-        Height="540" Width="960"
-        MinHeight="640" MinWidth="960"
+        Height="670" Width="960"
+        MinHeight="670" MinWidth="960"
         
         KeyDown="Grid_KeyDown">
 
@@ -19,9 +19,10 @@
         </Grid.ColumnDefinitions>
 
         <wpf:OpenGLControl 
-                MouseDown="OpenGLControl_MouseDown"
-                Grid.Column="0"
                 x:Name="openGLControl1" 
+                MouseDown="OpenGLControl_MouseDown"
+                MouseWheel="openGLControl1_MouseWheel"
+                Grid.Column="0"
                 OpenGLDraw="openGLControl1_OpenGLDraw" 
                 Resized="openGLControl1_Resized" 
                 OpenGLInitialized="openGLControl1_OpenGLInitialized"
@@ -45,16 +46,26 @@
                       HorizontalAlignment="Left" 
                       VerticalAlignment="Center"/>
             <Button x:Name="DeletePrimitive"
-                    Content="Удалить" 
-                    Canvas.Left="226" 
-                    Canvas.Top="157"
-                    Click="DeletePrimitive_Click"/>
+                    Content="Удалить"
+                    Canvas.Left="221" 
+                    Canvas.Top="153"
+                    Click="DeletePrimitive_Click" 
+                    FontSize="12" 
+                    FontWeight="Bold"
+                    Height="26" 
+                    Width="65"
+                    FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"/>
             <Button x:Name="DeleteCollPrimitives"
                     Content="Удалить" 
-                    Canvas.Left="226" 
-                    Canvas.Top="131"
+                    Canvas.Left="221" 
+                    Canvas.Top="125"
                     Click="DeleteCollPrimitives_Click"
-                    IsEnabled="False"/>
+                    FontSize="12" 
+                    FontWeight="Bold"
+                    IsEnabled="False" 
+                    Height="26" 
+                    Width="65"
+                    FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"/>
             <Label Content="Выбрать набор примитивов:" 
                    Canvas.Left="50" 
                    Canvas.Top="10" 
@@ -124,10 +135,10 @@
                                              ColorChanged="ColorPicker_ColorChanged"
                                              Width="200" 
                                              Height="380"
-                                             Canvas.Left="41" 
-                                             Canvas.Top="237" 
+                                             Canvas.Left="46" 
+                                             Canvas.Top="264" 
                                              HorizontalAlignment="Left" 
-                                             VerticalAlignment="Center"/>
+                                             VerticalAlignment="Top"/>
             <ComboBox x:Name="ComboBoxPoints"
                       SelectionChanged="ComboBoxPoints_SelectionChanged"
                       Canvas.Left="206" 
@@ -135,6 +146,31 @@
                       Width="80"
                       IsEnabled="false"
                       HorizontalAlignment="Left"/>
+            <Label Content="Изменить цвет:" 
+                   Canvas.Left="90" 
+                   Canvas.Top="230" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top" 
+                   FontFamily="Times New Roman" 
+                   FontWeight="Bold" FontSize="14" />
+            <RadioButton 
+                x:Name="RadioButtonColPrim"
+                Content="Набора примитивов" 
+                Canvas.Left="160" 
+                Canvas.Top="258"
+                FontFamily="Times New Roman" 
+                FontWeight="Bold" FontSize="12" 
+                FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"/>
+            <RadioButton
+                x:Name="RadioButtonPrim"
+                Content="Нового примитива" 
+                Canvas.Left="10" 
+                Canvas.Top="258"
+                FontFamily="Times New Roman" 
+                FontWeight="Bold" FontSize="12"
+                IsChecked="True" 
+                FocusManager.FocusedElement="{Binding ElementName=openGLControl1}"/>
+
             
         </Canvas>
 
