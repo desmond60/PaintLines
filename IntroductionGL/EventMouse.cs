@@ -86,8 +86,21 @@ public partial class MainWindow : Window {
         }
 
         if (e.RightButton == MouseButtonState.Pressed) {
-            gl.PushMatrix();
-            gl.Scissor(0, 0, 100, 100);
+            //gl.Viewport(0, 0, 800, 800); // область вывода
+
+            //gl.ClearColor(0.6156F, 0.7951F, 0.4588F, 1);
+            //gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT);
+
+/*            gl.Begin(BeginMode.Polygon);
+
+*//*            gl.Color(1, 1, 1);
+            gl.Vertex(10, 10);
+            gl.Vertex(25, 10);
+            gl.Vertex(10, 25);*//*
+
+            gl.End();*/
+            //gl.PushMatrix();
+            //gl.Scissor(0, 0, 100, 100);
             //gl.Scale(5, 5, 1);
         }
     }
@@ -95,7 +108,7 @@ public partial class MainWindow : Window {
     private void openGLControl1_MouseUp(object sender, MouseButtonEventArgs e)
     {
         if (e.RightButton == MouseButtonState.Released) {
-            gl.PopMatrix();
+            //gl.PopMatrix();
         }
     }
 }

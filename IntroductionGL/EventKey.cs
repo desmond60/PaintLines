@@ -1,4 +1,6 @@
-﻿namespace IntroductionGL;
+﻿using System.Diagnostics;
+
+namespace IntroductionGL;
 
 //: Обработчкики клавиш
 public partial class MainWindow : Window
@@ -42,25 +44,27 @@ public partial class MainWindow : Window
                     // Удалаяем выбранный набор
                     CollectionPrimitives item_col_prim = CollPrimitives.Find(s => s.Name == name_item_ComBox_CollPrim);
                     CollPrimitives.Remove(item_col_prim);
-                    ComboBoxCollPrimitives.Items.RemoveAt(ComboBoxCollPrimitives.SelectedIndex);
 
                     // Создаем новый
                     item_col_prim = new CollectionPrimitives(Primitives);
 
                     // Удалаем старое название 
-                    if (dictCollPrim_index.TryGetValue(item_col_prim.ToString(), out uint index))
-                        if (dictCollPrim_index[item_col_prim.ToString()]-- == 0)
-                            dictCollPrim_index.Remove(item_col_prim.ToString());
-
-                    // Добавляем новое название (+ в ComboBox кол. примитивов)
-                    ComboBoxCollPrimitives.Items.Add(NameCollPrim(CollPrimitives, ref item_col_prim));
-                    CollPrimitives.Add(item_col_prim);
+                    if (item_col_prim.Primitives.Count != int.Parse(ComboBoxCollPrimitives.Text.Split('_')[1])) {
+                        ComboBoxCollPrimitives.Items.Add(NameCollPrim(CollPrimitives, ref item_col_prim));
+                        CollPrimitives.Add(item_col_prim);
+                    }
+                    else { 
+                        item_col_prim = item_col_prim with { Name = ComboBoxCollPrimitives.Text };
+                        CollPrimitives.Add(item_col_prim);
+                        ComboBoxCollPrimitives.Items.Add(item_col_prim.Name);
+                    }
 
                     // Очищение листов текущего набора (+ ComboBox)
                     Points.Clear();
                     Primitives.Clear();
                     ComboBoxPrimitives.Items.Clear();
                     ComboBoxPoints.Items.Clear();
+                    ComboBoxCollPrimitives.Items.RemoveAt(ComboBoxCollPrimitives.SelectedIndex);
 
                     /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
                     isEditingModeColPrim = false;

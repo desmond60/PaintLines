@@ -128,7 +128,7 @@ public struct CollectionPrimitives : IEnumerable {
 public static class Helper
 {
     //: Словарь с названиями наборов примитивов
-    public static Dictionary<string, uint> dictCollPrim_index = new Dictionary<string, uint>();
+    public static Dictionary<string, int> dictCollPrim_index = new Dictionary<string, int>();
 
     //: Перечисление "Тип линии"
     public enum TypeLine { 
@@ -165,7 +165,7 @@ public static class Helper
     //: Дать название набору примитивов
     public static string NameCollPrim(List<CollectionPrimitives> lColPrim, ref CollectionPrimitives add_item) {
 
-        if (dictCollPrim_index.TryGetValue(add_item.ToString(), out uint index)) {
+        if (dictCollPrim_index.TryGetValue(add_item.ToString(), out int index)) {
             add_item.Name = add_item.ToString() + $"_{++dictCollPrim_index[add_item.ToString()]}";
             return add_item.Name;
         }

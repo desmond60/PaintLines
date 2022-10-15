@@ -182,21 +182,23 @@ public partial class MainWindow : Window
 
     private void openGLControl1_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-
         //gl.Viewport((int)(openGLControl1.ActualWidth / 2.0) - 50, (int)(openGLControl1.ActualHeight / 2.0) - 50, 100, 100);
+        //Point mouse = new Point((float)e.GetPosition(null).X, (float)e.GetPosition(null).Y);
+        //gl.Viewport((int)mouse.X, (int)mouse.Y, 400, 400);
 
-        //gl.Viewport(0, 0, 400, 400);
-
-        if (e.Delta < 0)
+/*        if (e.Delta < 0)
         {
-            
-/*            gl.Scale(0.9, 0.9, 0.9)
-            gl.Viewport(0, 0, (int)(openGLControl1.ActualWidth), (int)(openGLControl1.ActualHeight));*/
+            ScrollSize -= 5;
+            gl.Scale(0.9, 0.9, 1);
         }
         else {
-/*            gl.Scale(1.1, 1.1, 1.1);
-            gl.Viewport(0, 0, (int)(openGLControl1.ActualWidth), (int)(openGLControl1.ActualHeight));*/
+            ScrollSize += 5;
+            gl.Scale(1.1, 1.1, 1);
         }
+*/
+        //int new_width  = (int)(openGLControl1.ActualWidth + 20);
+        //int new_height = (int)(openGLControl1.ActualHeight + 20);
+        //gl.Viewport((int)mouse.X - new_width / 2, (int)mouse.Y - new_height / 2, (int)(openGLControl1.ActualWidth), (int)(openGLControl1.ActualHeight));
 
     }
 
