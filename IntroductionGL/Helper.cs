@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
 
 namespace IntroductionGL;
 
@@ -15,7 +15,7 @@ public struct Point {
     public float Size { get; set; } = 10f;
 
     //: Цвет вершины
-    public Color color { get; set; } = new Color(100, 100, 100);
+    public Color color { get; set; } = new Color(100, 100, 100, 255);
 
     //: Конструктор
     public Point(float x, float y) { 
@@ -47,20 +47,26 @@ public struct Color {
     //: Компонента B
     public byte B { get; set; }
 
+    //: Компонента A
+    public byte A { get; set; }
+
     //: Конструктор
-    public Color(byte R, byte G, byte B) {
+    public Color(byte R, byte G, byte B, byte A) {
         this.R = R;
         this.G = G;
         this.B = B;
+        this.A = A;
     }
 
     //: Деконструктор
-    public void Deconstruct(out float r,
-                            out float g,
-                            out float b) {
+    public void Deconstruct(out byte r,
+                            out byte g,
+                            out byte b,
+                            out byte a) {
         r = R;
         g = G;
         b = B;
+        a = A;
     }
 
     //: Строковое представление цвета

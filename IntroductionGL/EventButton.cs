@@ -5,15 +5,16 @@ public partial class MainWindow : Window {
 
     //: Обработчки кнопки "Удаление примитива"
     private void DeletePrimitive_Click(object sender, RoutedEventArgs e) {
-        
+
         // Если есть хотя бы один примитив
         if (Primitives.Any()) {
 
             // Если ComboBox не пуст
             if (!String.IsNullOrEmpty(ComboBoxPrimitives.SelectedValue?.ToString())) {
-                
-                // Удаление примитива
+
+                // Удаление примитив
                 Primitive temp_prim = Primitives.Find(s => s.Name == name_item_ComBox_Prim);
+                InformationBlock.Text = $"Включен режим редактирования набора примитива (Удален примитив \"{temp_prim.Name}\")";
                 Primitives.Remove(temp_prim);
                 Points.Remove(Points[^1]);
                 Points.Remove(Points[^1]);
@@ -39,6 +40,7 @@ public partial class MainWindow : Window {
             }
             // Удаление последнего приитива при создании или редактировании набора
             else if (!isEditingModePrim && isCreateColPrim && isEditingModeColPrim) {
+                InformationBlock.Text = $"Включен режим редактирования набора примитивов (Удален примитив \"{Primitives[^1].Name}\")";
                 ComboBoxPrimitives.Items.Remove(Primitives[^1].Name);
                 Primitives.Remove(Primitives[^1]);
                 Points.Remove(Points[^1]);
@@ -47,6 +49,7 @@ public partial class MainWindow : Window {
                 CollPrimitives[index] = CollPrimitives[index] with { Primitives = Primitives };
             }
             else if (!isEditingModePrim && isCreateColPrim && !isEditingModeColPrim) {
+                InformationBlock.Text = $"Включен режим создания набора примитивов (Удален примитив \"{Primitives[^1].Name}\")";
                 Primitives.Remove(Primitives[^1]);
                 Points.Remove(Points[^1]);
                 Points.Remove(Points[^1]);
@@ -62,6 +65,7 @@ public partial class MainWindow : Window {
             
             // Удаление набора
             CollectionPrimitives coll_prim = CollPrimitives.Find(s => s.Name == name_item_ComBox_CollPrim);
+            InformationBlock.Text = $"Включен режим создания набора примитивов (Удален набор примитивов \"{coll_prim.Name}\")";
             CollPrimitives.Remove(coll_prim);
             Primitives.Clear();
             Points.Clear();

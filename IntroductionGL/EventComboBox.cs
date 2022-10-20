@@ -8,6 +8,7 @@ public partial class MainWindow : Window {
         
         // Если ComboBox не пуст
         if (!String.IsNullOrEmpty(ComboBoxCollPrimitives.SelectedValue?.ToString())) {
+            InformationBlock.Text = $"Включен режим редактирования набора примитивов (Выбран набор примитивов \"{ComboBoxCollPrimitives.SelectedValue}\")";
 
             // Очистка других ComboBox
             ComboBoxPrimitives.Items.Clear();
@@ -46,6 +47,7 @@ public partial class MainWindow : Window {
 
         // Если ComboBox не пуст
         if (!String.IsNullOrEmpty(ComboBoxPrimitives.SelectedValue?.ToString())) {
+            InformationBlock.Text = $"Включен режим редактирования примитива (Выбран примитив \"{ComboBoxPrimitives.SelectedValue}\")";
 
             // Очистка других ComboBox + добавление названий вершин
             ComboBoxPoints.Items.Clear();
@@ -85,6 +87,7 @@ public partial class MainWindow : Window {
 
         // Если ComboBox не пуст
         if (!String.IsNullOrEmpty(ComboBoxPoints.SelectedValue?.ToString())) {
+            InformationBlock.Text = $"Включен режим редактирования вершины примтива (Выбрана вершина \"{ComboBoxPoints.SelectedValue}\")";
 
             /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
             isEditingModePoint = true;
@@ -137,6 +140,13 @@ public partial class MainWindow : Window {
             Primitive temp_prim = Primitives.Find(s => s.Name == name_item_ComBox_Prim); ;
             int index = Primitives.IndexOf(temp_prim);
             Primitives[index] = Primitives[index] with { type = typeLine };
+            return;
+        }
+
+        // Изменение последнего нарисованного примитива
+        if (Primitives.Any() && !isEditingModeColPrim)
+        {
+            Primitives[^1] = Primitives[^1] with { type = typeLine };
             return;
         }
     }

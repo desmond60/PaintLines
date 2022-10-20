@@ -9,13 +9,12 @@ public partial class MainWindow : Window {
 
     //: Обработчик нажатия мыши на окошко OpenGL
     private void OpenGLControl_MouseDown(object sender, MouseButtonEventArgs e) {
-
         // Если не включен режим редактирования
         if (!isEditingModePrim)
             if (e.LeftButton == MouseButtonState.Pressed) {
                 // Вычисляем координаты точки нажати и вмещяем в диапозон (0,1)
-                Point point = new Point((float)e.GetPosition(this).X, (float)e.GetPosition(this).Y);
-                point = Primitive_Coordinate(point, openGLControl1.ActualWidth, openGLControl1.ActualHeight);
+                Point point = new Point((float)e.GetPosition(openGLControl2D).X, (float)e.GetPosition(openGLControl2D).Y);
+                point = Primitive_Coordinate(point, openGLControl2D.ActualWidth, openGLControl2D.ActualHeight);
 
                 // Добавление точки
                 TempPoints.Add(point with { color = curColor });
@@ -59,7 +58,7 @@ public partial class MainWindow : Window {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 // Вычисляем координаты точки нажати и вмещяем в диапозон (0,1)
                 Point point = new Point((float)e.GetPosition(this).X, (float)e.GetPosition(this).Y);
-                point = Primitive_Coordinate(point, openGLControl1.ActualWidth, openGLControl1.ActualHeight);
+                point = Primitive_Coordinate(point, openGLControl2D.ActualWidth, openGLControl2D.ActualHeight);
 
                 // Выбранный примитив
                 Primitive temp_prim = Primitives.Find(s => s.Name == name_item_ComBox_Prim);
@@ -84,31 +83,6 @@ public partial class MainWindow : Window {
                 }
             }
         }
-
-        if (e.RightButton == MouseButtonState.Pressed) {
-            //gl.Viewport(0, 0, 800, 800); // область вывода
-
-            //gl.ClearColor(0.6156F, 0.7951F, 0.4588F, 1);
-            //gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT);
-
-/*            gl.Begin(BeginMode.Polygon);
-
-*//*            gl.Color(1, 1, 1);
-            gl.Vertex(10, 10);
-            gl.Vertex(25, 10);
-            gl.Vertex(10, 25);*//*
-
-            gl.End();*/
-            //gl.PushMatrix();
-            //gl.Scissor(0, 0, 100, 100);
-            //gl.Scale(5, 5, 1);
-        }
     }
 
-    private void openGLControl1_MouseUp(object sender, MouseButtonEventArgs e)
-    {
-        if (e.RightButton == MouseButtonState.Released) {
-            //gl.PopMatrix();
-        }
-    }
 }

@@ -26,5 +26,11 @@ public partial class MainWindow : Window {
             Primitives[index] = Primitives[index] with { LineWidth = lineWidth };
             return;
         }
+
+        // Изменение последнего нарисованного примитива
+        if (Primitives.Any() && !isEditingModeColPrim) {
+            Primitives[^1] = Primitives[^1] with { LineWidth = lineWidth };
+            return;
+        }
     }
 }

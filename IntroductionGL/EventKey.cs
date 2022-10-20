@@ -11,7 +11,7 @@ public partial class MainWindow : Window
 
         // Если нажата клавиша Space
         if (args.Key == Key.Space) {
-            // Если не редим редкатирования набора притива
+            // Если не режим редкатирования набора притива
             if (!isEditingModeColPrim) {
                 // Если есть хотя бы один притив и примитив создан 
                 if (Primitives.Count() > 0 && isCreateColPrim) {
@@ -19,6 +19,7 @@ public partial class MainWindow : Window
                     CollectionPrimitives item_col_prim = new CollectionPrimitives(Primitives);
                     ComboBoxCollPrimitives.Items.Add(NameCollPrim(CollPrimitives, ref item_col_prim));
                     CollPrimitives.Add(item_col_prim);
+                    InformationBlock.Text = $"Включен режим создание набора примитив (Создан набор \"{item_col_prim.Name}\")";
 
                     // Очищение листов текущего набора
                     Points.Clear();
@@ -58,6 +59,7 @@ public partial class MainWindow : Window
                         CollPrimitives.Add(item_col_prim);
                         ComboBoxCollPrimitives.Items.Add(item_col_prim.Name);
                     }
+                    InformationBlock.Text = $"Включен режим создания набора примитивов (Изменен набор примитивов \"{item_col_prim.Name}\")";
 
                     // Очищение листов текущего набора (+ ComboBox)
                     Points.Clear();
