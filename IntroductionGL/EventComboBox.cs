@@ -133,7 +133,7 @@ public partial class OpenGL2D : Window {
         }
 
         // Изменение последнего нарисованного примитива
-        if (Primitives.Any() && !isEditingModeColPrim)
+        if (Primitives.Any())
         {
             Primitives[^1] = Primitives[^1] with { type = typeLine };
             return;

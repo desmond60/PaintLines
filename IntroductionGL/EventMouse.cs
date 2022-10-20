@@ -57,7 +57,7 @@ public partial class OpenGL2D : Window {
         if (isEditingModePoint) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 // Вычисляем координаты точки нажати и вмещяем в диапозон (0,1)
-                Point point = new Point((float)e.GetPosition(this).X, (float)e.GetPosition(this).Y);
+                Point point = new Point((float)e.GetPosition(openGLControl2D).X, (float)e.GetPosition(openGLControl2D).Y);
                 point = Primitive_Coordinate(point, openGLControl2D.ActualWidth, openGLControl2D.ActualHeight);
 
                 // Выбранный примитив
