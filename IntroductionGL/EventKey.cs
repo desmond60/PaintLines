@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-
-namespace IntroductionGL;
+﻿namespace IntroductionGL;
 
 //: Обработчкики клавиш
-public partial class MainWindow : Window
+public partial class OpenGL2D : Window
 {
 
     //: Обработка нажатий клавиш
@@ -34,8 +32,11 @@ public partial class MainWindow : Window
 
                     SliderLineWidth.IsEnabled    = true;
                     ComboBoxTypeLine.IsEnabled   = true;
-                    RadioButtonColPrim.IsEnabled = false;
-                    RadioButtonPrim.IsEnabled    = false;
+                    ButtonEditColPrim.IsEnabled  = false;
+                    ButtonEditPrim.IsEnabled     = true;
+
+                    CanvasColPrim.Visibility = Visibility.Hidden;
+                    CanvasPrim.Visibility    = Visibility.Visible;
                     /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
                 }
             }
@@ -76,11 +77,14 @@ public partial class MainWindow : Window
                     ComboBoxPrimitives.IsEnabled   = false;
                     ComboBoxPoints.IsEnabled       = false;
                     DeleteCollPrimitives.IsEnabled = false;
+                    ButtonEditColPrim.IsEnabled    = false;
 
                     SliderLineWidth.IsEnabled    = true;
                     ComboBoxTypeLine.IsEnabled   = true;
-                    RadioButtonColPrim.IsEnabled = false;
-                    RadioButtonPrim.IsEnabled    = false;
+                    ButtonEditPrim.IsEnabled     = true;
+
+                    CanvasColPrim.Visibility = Visibility.Hidden;
+                    CanvasPrim.Visibility    = Visibility.Visible;
                     /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
                 }
             }

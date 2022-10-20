@@ -1,7 +1,6 @@
 ﻿namespace IntroductionGL;
 
-
-public partial class MainWindow : Window {
+public partial class OpenGL2D : Window {
 
     //: Обработчки кнопки "Удаление примитива"
     private void DeletePrimitive_Click(object sender, RoutedEventArgs e) {
@@ -12,7 +11,7 @@ public partial class MainWindow : Window {
             // Если ComboBox не пуст
             if (!String.IsNullOrEmpty(ComboBoxPrimitives.SelectedValue?.ToString())) {
 
-                // Удаление примитив
+                // Удаление примитива
                 Primitive temp_prim = Primitives.Find(s => s.Name == name_item_ComBox_Prim);
                 InformationBlock.Text = $"Включен режим редактирования набора примитива (Удален примитив \"{temp_prim.Name}\")";
                 Primitives.Remove(temp_prim);
@@ -29,7 +28,8 @@ public partial class MainWindow : Window {
                 isEditingModePoint        = false;
                 SliderLineWidth.IsEnabled = true;
 
-                ComboBoxTypeLine.IsEnabled = true;
+                ComboBoxTypeLine.IsEnabled  = true;
+                ButtonEditColPrim.IsEnabled = true; 
                 /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
 
                 // Отображение точек примитива, т.к. вкл. режим редактирования набора
@@ -85,8 +85,28 @@ public partial class MainWindow : Window {
 
             SliderLineWidth.IsEnabled  = true;
             ComboBoxTypeLine.IsEnabled = true;
+            ButtonEditPrim.IsEnabled   = true;
+
+            ButtonEditColPrim.IsEnabled = false;
+
+            CanvasColPrim.Visibility = Visibility.Hidden;
+            CanvasPrim.Visibility    = Visibility.Visible;
             /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
         }
+    }
+
+    //: Обработчик кнопки "Набора примитивов" в EDIT CANVAS
+    private void ButtonEditColPrim_Click(object sender, RoutedEventArgs e) {
+        CanvasColPrim.Visibility = Visibility.Visible;
+        CanvasPrim.Visibility = Visibility.Hidden;
+        ButtonEditPrim.IsEnabled = false;
+    }
+
+    //: Обработчик кнопки "Примитива" в EDIT CANVAS
+    private void ButtonEditPrim_Click(object sender, RoutedEventArgs e) {
+        CanvasPrim.Visibility = Visibility.Visible;
+        CanvasColPrim.Visibility = Visibility.Hidden;
+        ButtonEditColPrim.IsEnabled = false;
     }
 
 }

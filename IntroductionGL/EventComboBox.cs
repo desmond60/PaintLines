@@ -1,7 +1,7 @@
 ﻿namespace IntroductionGL;
 
 //: Обработчики ComboBox
-public partial class MainWindow : Window {
+public partial class OpenGL2D : Window {
 
     //: Обработка выбора в ComboBox набора примитивов
     private void ComboBoxCollPrimitives_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -23,8 +23,7 @@ public partial class MainWindow : Window {
             DeleteCollPrimitives.IsEnabled = true;
             SliderLineWidth.IsEnabled      = true;
             ComboBoxTypeLine.IsEnabled     = true;
-            RadioButtonColPrim.IsEnabled   = true;
-            RadioButtonPrim.IsEnabled      = true;
+            ButtonEditColPrim.IsEnabled    = true;
 
             ComboBoxPoints.IsEnabled       = false;
             /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
@@ -62,14 +61,11 @@ public partial class MainWindow : Window {
             SliderLineWidth.IsEnabled    = true;
             ComboBoxTypeLine.IsEnabled   = true;
 
-            RadioButtonColPrim.IsEnabled = false;
-            RadioButtonPrim.IsEnabled    = false;
+            ButtonEditColPrim.IsEnabled  = false;
             /* ------------------ Откл. и Вкл. компонент приложения ----------------- */
 
             // Выбранный примитив
             name_item_ComBox_Prim = ComboBoxPrimitives.SelectedValue.ToString()!;
-            List<Primitive> tempPrims = CollPrimitives.Find(s => s.Name == name_item_ComBox_CollPrim).Primitives;
-            Primitives = new List<Primitive>(tempPrims);
             Primitive tempPrim = Primitives.Find(s => s.Name == name_item_ComBox_Prim);
             
             // Установление данных на панель конкретного примитива
@@ -114,25 +110,18 @@ public partial class MainWindow : Window {
 
     //: Обработка выбора в ComboBox типа линии
     private void ComboBoxTypeLine_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-        
+
         // Если ComboBox не пуст
-        if (!String.IsNullOrEmpty(ComboBoxTypeLine.SelectedValue?.ToString())) {
+        if (!String.IsNullOrEmpty(ComboBoxTypeLine.SelectedValue?.ToString())){
             var strContent = ((ComboBoxItem)ComboBoxTypeLine.SelectedValue).Content.ToString();
             typeLine = strContent switch
             {
-                "Обычный"         => TypeLine.ORDINARY,
-                "Точечный"        => TypeLine.POINT,
-                "Штриховой"       => TypeLine.DASHED,
+                "Обычный" => TypeLine.ORDINARY,
+                "Точечный" => TypeLine.POINT,
+                "Штриховой" => TypeLine.DASHED,
                 "Штрихпунктирный" => TypeLine.DASHEDPOINT,
-                _                 => TypeLine.ORDINARY
+                _ => TypeLine.ORDINARY
             };
-        }
-
-        // Если вкл. режим редактирования набора примитива
-        if (isCreateColPrim && !isEditingModePrim && isEditingModeColPrim && RadioButtonColPrim.IsChecked!.Value) {
-            for (int i = 0; i < Primitives.Count; i++)
-                Primitives[i] = Primitives[i] with { type = typeLine };
-            return;
         }
 
         // Если вкл. режим редактирования примтитива
@@ -147,6 +136,30 @@ public partial class MainWindow : Window {
         if (Primitives.Any() && !isEditingModeColPrim)
         {
             Primitives[^1] = Primitives[^1] with { type = typeLine };
+            return;
+        }
+    }
+
+    //: Обработка выбора в ComboBox типа линии 
+    private void ComboBoxTypeLineColPrim_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
+        // Если ComboBox не пуст
+        if (!String.IsNullOrEmpty(ComboBoxTypeLineColPrim.SelectedValue?.ToString())) {
+            var strContent = ((ComboBoxItem)ComboBoxTypeLineColPrim.SelectedValue).Content.ToString();
+            typeLine = strContent switch
+            {
+                "Обычный" => TypeLine.ORDINARY,
+                "Точечный" => TypeLine.POINT,
+                "Штриховой" => TypeLine.DASHED,
+                "Штрихпунктирный" => TypeLine.DASHEDPOINT,
+                _ => TypeLine.ORDINARY
+            };
+        }
+
+        // Если вкл. режим редактирования набора примитива
+        if (isCreateColPrim && !isEditingModePrim && isEditingModeColPrim && CanvasColPrim.Visibility == Visibility.Visible) {
+            for (int i = 0; i < Primitives.Count; i++)
+                Primitives[i] = Primitives[i] with { type = typeLine };
             return;
         }
     }

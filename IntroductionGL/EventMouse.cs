@@ -1,7 +1,7 @@
 ﻿namespace IntroductionGL;
 
 //: Обработчики мыши
-public partial class MainWindow : Window {
+public partial class OpenGL2D : Window {
 
     public List<Point> TempPoints = new List<Point>();             // Точки созданного примитивов
     public bool isCreateColPrim = false;                           // Создан ли примитив?

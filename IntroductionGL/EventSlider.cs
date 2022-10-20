@@ -1,6 +1,6 @@
 ﻿namespace IntroductionGL;
 
-public partial class MainWindow : Window {
+public partial class OpenGL2D : Window {
 
     //: Обработчк Slider изменения ширины линии
     private void SliderLineWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
@@ -13,7 +13,7 @@ public partial class MainWindow : Window {
         }
 
         // Если вкл. режим редактирования набора примитивов
-        if (isCreateColPrim && !isEditingModePrim && isEditingModeColPrim && RadioButtonColPrim.IsChecked!.Value) {
+        if (isCreateColPrim && !isEditingModePrim && isEditingModeColPrim && CanvasColPrim.Visibility == Visibility.Visible) {
             for (int i = 0; i < Primitives.Count; i++)
                 Primitives[i] = Primitives[i] with { LineWidth = lineWidth };
             return;
