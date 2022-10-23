@@ -3,6 +3,7 @@
 //: Обработчкики клавиш
 public partial class OpenGL2D : Window
 {
+    public readonly Point speed_point = new Point(0.01f, 0.01f);   // Скороость перемещения примитива или набора примитивов
 
     //: Обработка нажатий клавиш
     private void Grid_KeyDown(object sender, KeyEventArgs args) {

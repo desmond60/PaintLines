@@ -10,12 +10,24 @@
     <Compile Update="OpenGL2D.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="OpenGL2D_2.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="OpenGL3D.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="OpenGL2D.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OpenGL2D_2.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OpenGL3D.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

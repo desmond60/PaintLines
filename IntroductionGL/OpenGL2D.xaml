@@ -84,8 +84,7 @@
                 Resized="openGLControl2D_Resized" 
                 OpenGLInitialized="openGLControl2D_OpenGLInitialized"
                 RenderContextType="FBO"
-                Focusable = "true"
-                Visibility="Visible"/>
+                Focusable = "true"/>
         <!--#endregion-->
 
         <!--#region % ****** Main Canvas ***** %-->

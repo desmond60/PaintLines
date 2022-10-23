@@ -5,7 +5,6 @@ public partial class OpenGL2D : Window {
 
     public List<Point> TempPoints = new List<Point>();             // Точки созданного примитивов
     public bool isCreateColPrim = false;                           // Создан ли примитив?
-    public readonly Point speed_point = new Point(0.01f, 0.01f);   // Скороость перемещения примитива или набора примитивов
 
     //: Обработчик нажатия мыши на окошко OpenGL
     private void OpenGLControl_MouseDown(object sender, MouseButtonEventArgs e) {

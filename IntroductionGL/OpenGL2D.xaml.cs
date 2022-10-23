@@ -41,8 +41,8 @@ public partial class OpenGL2D : Window
         gl2D.ClearColor(1, 1, 1, 0);
     }
 
-    private void openGLControl2D_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
-    {
+    private void openGLControl2D_OpenGLDraw(object sender, OpenGLRoutedEventArgs args) {
+        // Очиська буфера цвета и глубины
         gl2D.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
         for (int i = 0; i < Points.Count(); i++)

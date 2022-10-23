@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace IntroductionGL;
 
@@ -73,7 +74,32 @@ public struct Color {
     public override string ToString() => $"({R}, {G}, {B})";
 }
 
-// Структура примитива
+// Структура примитива правильный пятиугольник
+public struct PrimitiveFiveRect { 
+    
+    //: Вершины примитива
+    public Point[] points { get; set; }
+
+    //: Название примитива
+    public string Name { get; set; }
+
+    //: Конструктор
+    public PrimitiveFiveRect(Point[] points, string name) {
+        this.points = points;
+        this.Name   = name;
+    }
+
+    //: Строковое представление примитива
+    public override string ToString() {
+        StringBuilder str = new StringBuilder($"{Name}: [");
+        foreach (var item in points)
+            str.Append($"{item.ToString}\n");
+        str.Append($"]");
+        return str.ToString();
+    }
+}
+
+// Структура примитива Линии
 public struct Primitive {
 
     //: Вершины примитива
