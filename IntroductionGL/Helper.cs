@@ -1,7 +1,22 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿namespace IntroductionGL;
 
-namespace IntroductionGL;
+// Структура треугольника (сечения)
+public struct Triangle {
+
+    //: Первая секция
+    public Vector<float> section1 { get; set; }
+    //: Вторая секция
+    public Vector<float> section2 { get; set; }
+    //: Третья секция
+    public Vector<float> section3 { get; set; }
+
+    //: Конструктор
+    public Triangle(Vector<float> sec1, Vector<float> sec2, Vector<float> sec3) {
+        this.section1 = (Vector<float>)sec1.Clone();
+        this.section2 = (Vector<float>)sec2.Clone();
+        this.section3 = (Vector<float>)sec3.Clone();
+    }
+}
 
 // Структура точки
 public struct Point { 

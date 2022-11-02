@@ -3,88 +3,69 @@
 //: Класс с положением и направлением камеры
 public class Camera
 {
-    public Vector Position;     // Положение точки наблюдателя
-    public Vector Orientation;  // Направление наблюдателя
-    public Vector Rotation;     // Поворот сцены
+    public Vector<float> Position;     // Положение камеры
+    public Vector<float> Orientation;  // Направление камеры
+    public Vector<float> Rotation;     // Поворот сцены
 
     //: Конструктор
     public Camera() {
-        Position    = new Vector();
-        Orientation = new Vector();
-        Rotation    = new Vector();
+        Position    = new Vector<float>(new[] { -20.0f, 4.0f, 0.0f });
+        Orientation = new Vector<float>(new[] { 0.0f, 0.0f, 0.0f });
+        Rotation    = new Vector<float>(new[] { 0.0f, 1.0f, 0.0f });
     }
 
     //: Устанавливаем позицию камеры
-    public void CameraPosition(Vector pos, Vector ori, Vector rot) {
-        Position    = (Vector)pos.Clone();
-        Orientation = (Vector)ori.Clone();
-        Rotation    = (Vector)rot.Clone();
+    public void CameraPosition(Vector<float> pos, Vector<float> ori, Vector<float> rot) {
+        Position    = (Vector<float>)pos.Clone();
+        Orientation = (Vector<float>)ori.Clone();
+        Rotation    = (Vector<float>)rot.Clone();
     }
 
-    //: Передвижение камеры
+    //: Передвижение камеры по Осям X, Z
     public void CameraMove(float speed) {
         // Направление взгляда
-        Vector opinion = Orientation - Position;
+        Vector<float> opinion = Orientation - Position;
 
         // Передвигаем камеру
-        Position.x += opinion.x * speed;
-        Position.z += opinion.z * speed;
+        Position[0] += opinion[0] * speed;
+        Position[2] += opinion[2] * speed;
 
-        Orientation.x += opinion.x * speed;
-        Orientation.z += opinion.z * speed;
+        Orientation[0] += opinion[0] * speed;
+        Orientation[2] += opinion[2] * speed;
     }
 
-    //: Вращение камеры вокруг задней оси
-    public void CameraRotation(float angle, Vector vRot) {
-        // Направление взгляда 
-        Vector opinion = Orientation - Position;
+    //: Передвижение камеры по Оси Y
+    public void CameraUpDown(float speed) {
+        // Направление вверх
+        Vector<float> opinion = new Vector<float>(new[] { 0.0f, 1.0f, 0.0f });
 
-        // Пересчитываем координаты
-        Vector newOrientation = new Vector();
-        newOrientation.x = (float)((Cos(angle) + (1 - Cos(angle)) * Pow(vRot.x, 2))  * opinion.x +
-                +((1 - Cos(angle)) * vRot.x * vRot.y - vRot.z * Sin(angle)) * opinion.y +
-                +((1 - Cos(angle)) * vRot.x * vRot.z + vRot.y * Sin(angle)) * opinion.z);
-
-        newOrientation.y = (float)(((1 - Cos(angle)) * vRot.x * vRot.y + vRot.z * Sin(angle)) * opinion.x +
-                +(Cos(angle) + (1 - Cos(angle)) * vRot.y * vRot.y)                   * opinion.y +
-                +((1 - Cos(angle)) * vRot.y * vRot.z - vRot.x * Sin(angle))          * opinion.z);
-
-        newOrientation.z = (float)(((1 - Cos(angle)) * vRot.x * vRot.z - vRot.y * Sin(angle)) * opinion.x +
-                +((1 - Cos(angle)) * vRot.y * vRot.z + vRot.x * Sin(angle)) * opinion.y +
-                +(Cos(angle) + (1 - Cos(angle)) * vRot.z * vRot.z) * opinion.z);
-
-        // Новое направление наблюдателя
-        Orientation = Position + newOrientation;
+        // Поднимаем или отпускаем камеру
+        Position[1]    += opinion[1] * speed;
+        Orientation[1] += opinion[1] * speed;
     }
 
-    //: Вращение вокруг наблюдателя
-    public void CameraRotationObserver(float angle, Vector vCenter, Vector vRot) {
+    //: Вращение камеры вокруг наблюдательной точки
+    public void CameraRotationObserver(float angle, Vector<float> vRot) {
         // Направление взгляда 
-        Vector opinion = Position - vCenter;
+        Vector<float> opinion = Position - Orientation;
 
         // Пересчитываем координаты
-        Vector newPosition = new Vector();
-        newPosition.x = (float)((Cos(angle) + (1 - Cos(angle)) * Pow(vRot.x, 2)) * opinion.x +
-                +((1 - Cos(angle)) * vRot.x * vRot.y - vRot.z * Sin(angle)) * opinion.y +
-                +((1 - Cos(angle)) * vRot.x * vRot.z + vRot.y * Sin(angle)) * opinion.z);
+        Vector<float> newPosition = new Vector<float>(vRot.Length);
+        newPosition[0] = (float)((Cos(angle) + (1 - Cos(angle)) * Pow(vRot[0], 2)) * opinion[0] +
+                +((1 - Cos(angle)) * vRot[0] * vRot[1] - vRot[2] * Sin(angle)) * opinion[1] +
+                +((1 - Cos(angle)) * vRot[0] * vRot[2] + vRot[1] * Sin(angle)) * opinion[2]);
 
-        newPosition.y = (float)(((1 - Cos(angle)) * vRot.x * vRot.y + vRot.z * Sin(angle)) * opinion.x +
-                +(Cos(angle) + (1 - Cos(angle)) * vRot.y * vRot.y) * opinion.y +
-                +((1 - Cos(angle)) * vRot.y * vRot.z - vRot.x * Sin(angle)) * opinion.z);
+        newPosition[1] = (float)(((1 - Cos(angle)) * vRot[0] * vRot[1] + vRot[2] * Sin(angle)) * opinion[0] +
+                +(Cos(angle) + (1 - Cos(angle)) * Pow(vRot[1], 2)) * opinion[1] +
+                +((1 - Cos(angle)) * vRot[1] * vRot[2] - vRot[0] * Sin(angle)) * opinion[2]);
 
-        newPosition.z = (float)(((1 - Cos(angle)) * vRot.x * vRot.z - vRot.y * Sin(angle)) * opinion.x +
-                +((1 - Cos(angle)) * vRot.y * vRot.z + vRot.x * Sin(angle)) * opinion.y +
-                +(Cos(angle) + (1 - Cos(angle)) * vRot.z * vRot.z) * opinion.z);
+        newPosition[2] = (float)(((1 - Cos(angle)) * vRot[0] * vRot[2] - vRot[1] * Sin(angle)) * opinion[0] +
+                +((1 - Cos(angle)) * vRot[1] * vRot[2] + vRot[0] * Sin(angle)) * opinion[1] +
+                +(Cos(angle) + (1 - Cos(angle)) * Pow(vRot[2], 2)) * opinion[2]);
 
         // Новая позиция камеры
-        Position = vCenter + newPosition;
+        Position = Orientation + newPosition;
     }
-
-    //: Установка вида с помощью мыши
-    public void SetOrientation() { 
-    
-    }
-
 
 }
 
