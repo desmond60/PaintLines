@@ -177,6 +177,12 @@ public static class Helper
     //: Словарь с названиями наборов примитивов
     public static Dictionary<string, int> dictCollPrim_index = new Dictionary<string, int>();
 
+    //: Словарь с текстурами и их путями
+    public static Dictionary<int, string> dictTexture = new Dictionary<int, string>() {
+        { 1, "EventOpenGL3D/texture1.bmp"},
+        { 2, "EventOpenGL3D/texture2.bmp"}
+    };
+
     //: Перечисление "Тип линии"
     public enum TypeLine { 
         ORDINARY,

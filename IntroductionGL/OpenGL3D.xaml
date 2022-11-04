@@ -37,8 +37,7 @@
                 Resized="openGLControl3D_Resized" 
                 OpenGLInitialized="openGLControl3D_OpenGLInitialized"
                 RenderContextType="FBO"
-                Focusable = "true"
-                MouseWheel="openGLControl3D_MouseWheel"/>
+                Focusable = "true"/>
         <!--#endregion-->
 
         <!--#region % ****** Main Canvas ***** %-->
@@ -180,8 +179,26 @@
                                      SwitchContentPlacement="Right"/>
             </DockPanel>
 
-            <!-- % ***** ComboBox (Вид проекции) ***** % -->
+            <!-- % ***** Toggle (Включить туман) ***** % -->
             <DockPanel Canvas.Top="290"
+                       Width="330">
+                <TextBlock 
+                           FontSize="16"
+                           Margin="20,2,0,2"
+                           HorizontalAlignment="Left"
+                           Text="Туман"/>
+                <toggle:ToggleSwitch x:Name="ToggleFog"
+                                     IsChecked="False" 
+                                     Cursor="Hand"
+                                     HorizontalAlignment="Right"
+                                     CheckedText="Вкл." 
+                                     UncheckedText="Выкл."
+                                     Click="ToggleFog_Click" 
+                                     SwitchContentPlacement="Right"/>
+            </DockPanel>
+
+            <!-- % ***** ComboBox (Вид проекции) ***** % -->
+            <DockPanel Canvas.Top="325"
                        Width="330">
                 <TextBlock 
                            FontSize="16"
@@ -199,7 +216,7 @@
             </DockPanel>
 
             <!-- % ***** ComboBox (Вид света) ***** % -->
-            <DockPanel Canvas.Top="325"
+            <DockPanel Canvas.Top="360"
                        Width="330">
                 <TextBlock 
                            FontSize="16"
@@ -214,8 +231,37 @@
                     <ComboBoxItem Content="Точечный"/>
                     <ComboBoxItem Content="Затухание"/>
                     <ComboBoxItem Content="Прожектор"/>
-                    <ComboBoxItem Content="Туман"/>
                 </ComboBox>
+            </DockPanel>
+
+            <!-- % ***** ComboBox (Вид текстуры) ***** % -->
+            <DockPanel Canvas.Top="395"
+                       Width="330">
+                <TextBlock 
+                           FontSize="16"
+                           Margin="20,2,0,2"
+                           HorizontalAlignment="Left"
+                           Text="Текстура"
+                           DockPanel.Dock="Left"/>
+                <Button x:Name="BtnLoadTexture"
+                        Cursor="Hand"
+                        HorizontalAlignment="Right"
+                        Width="20"
+                        Height="20"
+                        DockPanel.Dock="Right"
+                        Margin="10,0,0,0"
+                        Click="BtnLoadTexture_Click"
+                        Content="+" Background="#FFE5E5E5"/>
+                <ComboBox x:Name="ComboBoxViewTexture"
+                          Cursor="Hand"
+                          HorizontalAlignment="Right"
+                          SelectionChanged="ComboBoxViewTexture_SelectionChanged"
+                          SelectedIndex="0"
+                          DockPanel.Dock="Right">
+                    <ComboBoxItem Content="texture1"/>
+                    <ComboBoxItem Content="texture2"/>
+                </ComboBox>
+                
             </DockPanel>
 
         </Canvas>

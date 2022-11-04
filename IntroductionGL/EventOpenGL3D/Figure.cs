@@ -6,16 +6,30 @@ public partial class OpenGL3D : Window {
     //: Главная функция рисование фигуры
     private void DrawFigure() {
 
-        if (!isSceleton)
-        {
-            DrawNotSceleton();
+        // Каркасные или некаркасный режим
+        if (!isSceleton) {
+            // Сглаженные нормали или несглаженные
+            if (!isSmoothNormal)
+                // С текстурированием или без
+                if (!isShowTexture)
+                    DrawNotSceleton(Normals);
+                else
+                    DrawTexture(Normals);
+            else
+                // С текстурированием или без
+                if (!isShowTexture)
+                    DrawNotSceleton(SmoothNormal);
+                else
+                    DrawTexture(SmoothNormal);
         }
         else {
             DrawSceleton();
         }
 
+        // Рисовать нормали
         if (isDrawNormal)
         {
+            // Сглаженные или не сглаженные
             if (!isSmoothNormal)
                 DrawNotSmoothNormal();
             else
@@ -41,11 +55,11 @@ public partial class OpenGL3D : Window {
     }
 
     //: Рисование фигуры в не каркасном виде
-    private void DrawNotSceleton() {
+    private void DrawNotSceleton(List<Vector<float>> normals) {
         int numNor = 0;
 
         gl3D.Begin(OpenGL.GL_TRIANGLES);
-            gl3D.Normal(Normals[numNor][0], Normals[numNor][1], Normals[numNor][2]);
+            gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
             numNor++;
             gl3D.Color((byte)0, (byte)255, (byte)(255));
             gl3D.Vertex(Figure[0].section1[0], Figure[0].section1[1], Figure[0].section1[2]);
@@ -55,7 +69,7 @@ public partial class OpenGL3D : Window {
 
         for (int i = 0; i < Figure.Count - 1; i++) {
             gl3D.Begin(BeginMode.Polygon);
-                gl3D.Normal(Normals[numNor][0], Normals[numNor][1], Normals[numNor][2]);
+                gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
                 numNor++;
                 gl3D.Color((byte)0, (byte)255, (byte)(255));
                 gl3D.Vertex(Figure[i].section1[0], Figure[i].section1[1], Figure[i].section1[2]);
@@ -65,7 +79,7 @@ public partial class OpenGL3D : Window {
             gl3D.End();
 
             gl3D.Begin(BeginMode.Polygon);
-                gl3D.Normal(Normals[numNor][0], Normals[numNor][1], Normals[numNor][2]);
+                gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
                 numNor++;
                 gl3D.Color((byte)0, (byte)255, (byte)(255));
                 gl3D.Vertex(Figure[i].section3[0], Figure[i].section3[1], Figure[i].section3[2]);
@@ -75,7 +89,7 @@ public partial class OpenGL3D : Window {
             gl3D.End();
 
             gl3D.Begin(BeginMode.Polygon);
-                gl3D.Normal(Normals[numNor][0], Normals[numNor][1], Normals[numNor][2]);
+                gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
                 numNor++;
                 gl3D.Color((byte)0, (byte)255, (byte)(255));
                 gl3D.Vertex(Figure[i].section2[0], Figure[i].section2[1], Figure[i].section2[2]);
@@ -86,7 +100,7 @@ public partial class OpenGL3D : Window {
         }
 
         gl3D.Begin(OpenGL.GL_TRIANGLES);
-            gl3D.Normal(Normals[numNor][0], Normals[numNor][1], Normals[numNor][2]);
+            gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
             numNor++;
             gl3D.Color((byte)0, (byte)255, (byte)(255));
             gl3D.Vertex(Figure[^1].section1[0], Figure[^1].section1[1], Figure[^1].section1[2]);
@@ -253,7 +267,107 @@ public partial class OpenGL3D : Window {
     }
 
     //: Рисование сглаженных нормалей
-    private void DrawSmoothNormal() { 
-        
+    private void DrawSmoothNormal() {
+        for (int i = 0, numNor = 0; i < Figure.Count; i++, numNor += 3) {
+            gl3D.Begin(OpenGL.GL_LINE_STRIP);
+                gl3D.Color((byte)153, (byte)255, (byte)153);
+                gl3D.Vertex(Figure[i].section1[0], Figure[i].section1[1], Figure[i].section1[2]);
+                gl3D.Vertex(Figure[i].section1[0] + SmoothNormal[numNor][0], Figure[i].section1[1] + SmoothNormal[numNor][1], Figure[i].section1[2] + SmoothNormal[numNor][2]);
+            gl3D.End();
+
+            gl3D.Begin(OpenGL.GL_LINE_STRIP);
+                gl3D.Color((byte)153, (byte)255, (byte)153);
+                gl3D.Vertex(Figure[i].section2[0], Figure[i].section2[1], Figure[i].section2[2]);
+                gl3D.Vertex(Figure[i].section2[0] + SmoothNormal[numNor + 1][0], Figure[i].section2[1] + SmoothNormal[numNor + 1][1], Figure[i].section2[2] + +SmoothNormal[numNor + 1][2]);
+            gl3D.End();
+
+            gl3D.Begin(OpenGL.GL_LINE_STRIP);
+                gl3D.Color((byte)153, (byte)255, (byte)153);
+                gl3D.Vertex(Figure[i].section3[0], Figure[i].section3[1], Figure[i].section3[2]);
+                gl3D.Vertex(Figure[i].section3[0] + SmoothNormal[numNor + 2][0], Figure[i].section3[1] + SmoothNormal[numNor + 2][1], Figure[i].section3[2] + SmoothNormal[numNor + 2][2]);
+            gl3D.End();
+        }
+    }
+
+    //: Рисование текстурированной фигуры
+    private void DrawTexture(List<Vector<float>> normals) {
+        // Разрешаем текстурирование, указываем текстуру
+        gl3D.Enable(OpenGL.GL_TEXTURE_2D);
+        texture.Create(gl3D, dictTexture[_texture]);
+        texture.Bind(gl3D);
+
+        int numNor = 0;
+
+        gl3D.Begin(OpenGL.GL_TRIANGLES);
+            gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
+            numNor++;
+            gl3D.Color((byte)255, (byte)255, (byte)(255));
+            gl3D.TexCoord(0f, 0f);
+            gl3D.Vertex(Figure[0].section1[0], Figure[0].section1[1], Figure[0].section1[2]);
+            gl3D.TexCoord(0.5f, 1f);
+            gl3D.Vertex(Figure[0].section2[0], Figure[0].section2[1], Figure[0].section2[2]);
+            gl3D.TexCoord(1f, 0f);
+            gl3D.Vertex(Figure[0].section3[0], Figure[0].section3[1], Figure[0].section3[2]);
+        gl3D.End();
+
+        for (int i = 0; i < Figure.Count - 1; i++)
+        {
+            gl3D.Begin(BeginMode.Polygon);
+                gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
+                numNor++;
+                gl3D.Color((byte)255, (byte)255, (byte)(255));
+                gl3D.TexCoord(0f, 1f);
+                gl3D.Vertex(Figure[i].section1[0], Figure[i].section1[1], Figure[i].section1[2]);
+                gl3D.TexCoord(1f, 1f);
+                gl3D.Vertex(Figure[i + 1].section1[0], Figure[i + 1].section1[1], Figure[i + 1].section1[2]);
+                gl3D.TexCoord(1f, 0f);
+                gl3D.Vertex(Figure[i + 1].section2[0], Figure[i + 1].section2[1], Figure[i + 1].section2[2]);
+                gl3D.TexCoord(0f, 0f);
+                gl3D.Vertex(Figure[i].section2[0], Figure[i].section2[1], Figure[i].section2[2]);
+            gl3D.End();
+
+            gl3D.Begin(BeginMode.Polygon);
+                gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
+                numNor++;
+                gl3D.Color((byte)255, (byte)255, (byte)(255));
+                gl3D.TexCoord(0f, 1f);
+                gl3D.Vertex(Figure[i].section3[0], Figure[i].section3[1], Figure[i].section3[2]);
+                gl3D.TexCoord(1f, 1f);
+                gl3D.Vertex(Figure[i + 1].section3[0], Figure[i + 1].section3[1], Figure[i + 1].section3[2]);
+                gl3D.TexCoord(1f, 0f);
+                gl3D.Vertex(Figure[i + 1].section1[0], Figure[i + 1].section1[1], Figure[i + 1].section1[2]);
+                gl3D.TexCoord(0f, 0f);
+                gl3D.Vertex(Figure[i].section1[0], Figure[i].section1[1], Figure[i].section1[2]);
+            gl3D.End();
+
+            gl3D.Begin(BeginMode.Polygon);
+                gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
+                numNor++;
+                gl3D.Color((byte)255, (byte)255, (byte)(255));
+                gl3D.TexCoord(0f, 1f);
+                gl3D.Vertex(Figure[i].section2[0], Figure[i].section2[1], Figure[i].section2[2]);
+                gl3D.TexCoord(1f, 1f);
+                gl3D.Vertex(Figure[i + 1].section2[0], Figure[i + 1].section2[1], Figure[i + 1].section2[2]);
+                gl3D.TexCoord(1f, 0f);
+                gl3D.Vertex(Figure[i + 1].section3[0], Figure[i + 1].section3[1], Figure[i + 1].section3[2]);
+                gl3D.TexCoord(0f, 0f);
+                gl3D.Vertex(Figure[i].section3[0], Figure[i].section3[1], Figure[i].section3[2]);
+            gl3D.End();
+        }
+
+        gl3D.Begin(OpenGL.GL_TRIANGLES);
+            gl3D.Normal(normals[numNor][0], normals[numNor][1], normals[numNor][2]);
+            numNor++;
+            gl3D.Color((byte)255, (byte)255, (byte)(255));
+            gl3D.TexCoord(0f, 0f);
+            gl3D.Vertex(Figure[^1].section1[0], Figure[^1].section1[1], Figure[^1].section1[2]);
+            gl3D.TexCoord(0.5f, 1f);
+            gl3D.Vertex(Figure[^1].section2[0], Figure[^1].section2[1], Figure[^1].section2[2]);
+            gl3D.TexCoord(1f, 0f);
+            gl3D.Vertex(Figure[^1].section3[0], Figure[^1].section3[1], Figure[^1].section3[2]);
+        gl3D.End();
+
+        // Отключаем текстурирование
+        gl3D.Disable(OpenGL.GL_TEXTURE_2D);
     }
 }

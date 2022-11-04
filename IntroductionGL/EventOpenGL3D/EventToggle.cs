@@ -36,6 +36,11 @@ public partial class OpenGL3D : Window
 
     //: Обработчик Toggle "Вкл./Выкл. сглаживание нормалей"
     private void ToggleSmoothNormal_Click(object sender, RoutedEventArgs e) {
+        isSmoothNormal = !isSmoothNormal;
+    }
 
+    //: Обработчик Toggle "Вкл./Выкл. туман"
+    private void ToggleFog_Click(object sender, RoutedEventArgs e) {
+        isFog = !isFog;
     }
 }

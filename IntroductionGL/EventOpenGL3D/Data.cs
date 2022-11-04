@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace IntroductionGL.EventOpenGL3D;
+﻿namespace IntroductionGL.EventOpenGL3D;
 
 //: Класс Data под Json
 public class Data {

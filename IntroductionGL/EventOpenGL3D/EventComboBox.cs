@@ -48,9 +48,16 @@ public partial class OpenGL3D : Window
                 "Точечный" => 0,
                 "Затухание" => 1,
                 "Прожектор" => 2,
-                "Туман" => 3,
                 _ => 0
             };
+        }
+    }
+
+    //: Обработчики ComboBox "ViewTexture"
+    private void ComboBoxViewTexture_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        if (!String.IsNullOrEmpty(ComboBoxViewTexture.SelectedValue?.ToString())) { 
+            var str = ((ComboBoxItem)ComboBoxViewTexture.SelectedValue).Content.ToString();
+            int.TryParse(string.Join("", str!.Where(c => char.IsDigit(c))), out _texture);
         }
     }
 }

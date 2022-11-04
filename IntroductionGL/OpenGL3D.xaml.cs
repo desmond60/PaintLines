@@ -2,7 +2,8 @@
 
 public partial class OpenGL3D : Window
 {
-    public OpenGL3D() {
+    public OpenGL3D()
+    {
         InitializeComponent();
         Load(); // Чтение и подготовка 3D-фигуры
     }
@@ -10,23 +11,26 @@ public partial class OpenGL3D : Window
     /* ----------------------- Переменные --------------------------------- */
     OpenGL gl3D; // Переменная OpenGl
 
-    public List<Triangle> Figure            = new List<Triangle>();      // Треугольники
-    public List<Vector<float>> Normals      = new List<Vector<float>>(); // Нормали
+    public List<Triangle> Figure = new List<Triangle>();      // Треугольники
+    public List<Vector<float>> Normals = new List<Vector<float>>(); // Нормали
     public List<Vector<float>> SmoothNormal = new List<Vector<float>>(); // Сглаженные нормали
 
     public Camera camera = new Camera(); // Камера
+    public Texture texture = new Texture(); // Текстура
 
     public bool isLight = true; // Вкл./Выкл. света
-    public bool isGrid  = true; // Вкл./Выкл. сетки
+    public bool isGrid = true; // Вкл./Выкл. сетки
     public bool isDepth = true; // Вкл./Выкл. буфера глубины
-    public bool isSceleton     = false; // Вкл./Выкл. каркасного режима
-    public bool isDrawNormal   = false; // Вкл./Выкл. демонстрации нормалей
-    public bool isShowTexture  = false; // Вкл./Выкл. текстурирование фигуры
+    public bool isSceleton = false; // Вкл./Выкл. каркасного режима
+    public bool isDrawNormal = false; // Вкл./Выкл. демонстрации нормалей
+    public bool isShowTexture = false; // Вкл./Выкл. текстурирование фигуры
     public bool isSmoothNormal = false; // Вкл./Выкл. сглаживание нормалей
+    public bool isFog = false; // Вкл./Выкл. туман
 
     public bool isPerspective = true; // Если перспективный режим
 
     public uint ViewLight = 0; // Вид освещения
+    public int  _texture  = 1; // Хранит текстуру
     /* ----------------------- Переменные --------------------------------- */
 
     // Начальное состояние OpenGl
@@ -41,7 +45,7 @@ public partial class OpenGL3D : Window
         // Включаем/выключаем буфер глубины
         if (isDepth)
             gl3D.Enable(OpenGL.GL_DEPTH_TEST);
-        else 
+        else
             gl3D.Disable(OpenGL.GL_DEPTH_TEST);
 
         // Включение/Выключение света
@@ -54,9 +58,9 @@ public partial class OpenGL3D : Window
         gl3D.LoadIdentity();
 
         // Устанавливаем камеру
-        gl3D.LookAt(camera.Position[0],    camera.Position[1],    camera.Position[2],
+        gl3D.LookAt(camera.Position[0], camera.Position[1], camera.Position[2],
                     camera.Orientation[0], camera.Orientation[1], camera.Orientation[2],
-                    camera.Rotation[0],    camera.Rotation[1],    camera.Rotation[2]);
+                    camera.Rotation[0], camera.Rotation[1], camera.Rotation[2]);
 
         // Установка освещения
         if (isLight)
@@ -90,13 +94,14 @@ public partial class OpenGL3D : Window
         gl3D.Finish();
     }
 
-    private void openGLControl3D_Resized(object sender, OpenGLRoutedEventArgs args) {
+    private void openGLControl3D_Resized(object sender, OpenGLRoutedEventArgs args)
+    {
         // Вычисляем соотношение между шириной и высотой
         float ratio = (float)(openGLControl3D.ActualWidth / openGLControl3D.ActualHeight);
 
         // Устанавливаем матрицу проекции / определяет объем сцены
         gl3D.MatrixMode(MatrixMode.Projection);
-        
+
         // Единичная матрица
         gl3D.LoadIdentity();
 
@@ -109,9 +114,9 @@ public partial class OpenGL3D : Window
         else
         {
             if (openGLControl3D.ActualWidth >= openGLControl3D.ActualHeight)
-                gl3D.Ortho(-10*ratio,10*ratio, -10,10, -100,100);
+                gl3D.Ortho(-10 * ratio, 10 * ratio, -10, 10, -100, 100);
             else
-                gl3D.Ortho(-10,10, -10/ratio,10/ratio, -100,100);
+                gl3D.Ortho(-10, 10, -10 / ratio, 10 / ratio, -100, 100);
         }
 
         // Возврат к матрице модели GL_MODELVIEW
@@ -119,14 +124,16 @@ public partial class OpenGL3D : Window
     }
 
     //: Загрузка всех вспомогательных ресурсов
-    private void Load() {
+    private void Load()
+    {
         // % ***** Чтение входных сечений и траекторий ***** %
         Vector<float>[] Section;      // Координаты 2D сечения
         Vector<float>[] Trajectory;   // Координаты траектории тиражирования
         Vector<float>[] ChangeParam;  // Параметры изменения сечения
-        Vector<float>   Percent;      // Проценты изменения сечения
-        Vector<float>   Angles;       // Углы поворота треугольника
-        try {
+        Vector<float> Percent;      // Проценты изменения сечения
+        Vector<float> Angles;       // Углы поворота треугольника
+        try
+        {
             // Входные данные
             string json = File.ReadAllText("EventOpenGL3D/coordinates.json");
             Data data = JsonConvert.DeserializeObject<Data>(json)!;
@@ -135,7 +142,8 @@ public partial class OpenGL3D : Window
             // Отформатируем входные данные
             (Section, Trajectory, ChangeParam, Percent, Angles) = data;
         }
-        catch (FileNotFoundException ex) {
+        catch (FileNotFoundException ex)
+        {
             Trace.WriteLine(ex.Message);
             return;
         }
@@ -147,9 +155,8 @@ public partial class OpenGL3D : Window
 
         // Вычисление длины пути
         float trajectoryLenght = 0;
-        for (int i = 0; i < Trajectory.Length - 1; i++) { 
+        for (int i = 0; i < Trajectory.Length - 1; i++)
             trajectoryLenght += Vector<float>.Norm(Trajectory[i + 1] - Trajectory[i]);
-        }
 
         // Проходимся по всем изменениям
         for (int i = 0; i < ChangeParam.Length; i++) {
@@ -196,9 +203,9 @@ public partial class OpenGL3D : Window
             if (angle == 180) angle = 0;*/
 
             // Создаем треугольник
-            Vector<float> section1 = new Vector<float>(new[] { Section[0][0], Section[0][1], Section[0][2], 1f});
-            Vector<float> section2 = new Vector<float>(new[] { Section[1][0], Section[1][1], Section[1][2], 1f});
-            Vector<float> section3 = new Vector<float>(new[] { Section[2][0], Section[2][1], Section[2][2], 1f});
+            Vector<float> section1 = new Vector<float>(new[] { Section[0][0], Section[0][1], Section[0][2], 1f });
+            Vector<float> section2 = new Vector<float>(new[] { Section[1][0], Section[1][1], Section[1][2], 1f });
+            Vector<float> section3 = new Vector<float>(new[] { Section[2][0], Section[2][1], Section[2][2], 1f });
 
             // Масштабируем треугольник
             Matrix matrixScale = new Matrix(new float[4, 4]{
@@ -211,12 +218,12 @@ public partial class OpenGL3D : Window
             section2 = matrixScale * section2;
             section3 = matrixScale * section3;
 
-
             // Повернуть треугольник, если angle != 0
-            if (Angles[i] != 0) {
-                float c         = (float)(Cos(Angles[i] * PI / 180.0));
-                float s         = (float)(Sin(Angles[i] * PI / 180.0));
-                Vector<float> v = Vector<float>.Normalize(axe); 
+            if (Angles[i] != 0)
+            {
+                float c = (float)(Cos(Angles[i] * PI / 180.0));
+                float s = (float)(Sin(Angles[i] * PI / 180.0));
+                Vector<float> v = Vector<float>.Normalize(axe);
 
                 Matrix matrixRotation = new Matrix(new float[4, 4]{
                     {c + v[0]*v[0]*(1 - c)     ,   v[0]*v[1]*(1 - c) - v[2]*s,   v[0]*v[2]*(1 - c) + v[1]*s, 0f},
@@ -246,7 +253,8 @@ public partial class OpenGL3D : Window
 
         // Вычисление нормалей к плоскостям
         Normals.Add(Vector<float>.GetVectorPolygon(Figure[0].section1, Figure[0].section2, Figure[0].section3));
-        for (int i = 0; i < Figure.Count - 1; i++) {
+        for (int i = 0; i < Figure.Count - 1; i++)
+        {
             Normals.Add(Vector<float>.GetVectorPolygon(Figure[i].section2, Figure[i].section1, Figure[i + 1].section1));
             Normals.Add(Vector<float>.GetVectorPolygon(Figure[i].section1, Figure[i].section3, Figure[i + 1].section3));
             Normals.Add(Vector<float>.GetVectorPolygon(Figure[i].section3, Figure[i].section2, Figure[i + 1].section2));
@@ -258,36 +266,56 @@ public partial class OpenGL3D : Window
         SmoothNormal.Add(smoothNor);
         SmoothNormal.Add(smoothNor);
         SmoothNormal.Add(smoothNor);
-        for (int i = 0; i < length; i++) {
-
+        for (int i = 1, numNor = 1; i < Figure.Count - 1; i++, numNor += 3)
+        {
+            smoothNor = (Normals[numNor] + Normals[numNor + 1] + Normals[numNor + 3] + Normals[numNor + 4]) / 4.0;
+            SmoothNormal.Add(smoothNor);
+            smoothNor = (Normals[numNor] + Normals[numNor + 2] + Normals[numNor + 3] + Normals[numNor + 5]) / 4.0;
+            SmoothNormal.Add(smoothNor);
+            smoothNor = (Normals[numNor + 1] + Normals[numNor + 2] + Normals[numNor + 4] + Normals[numNor + 5]) / 4.0;
+            SmoothNormal.Add(smoothNor);
         }
+        smoothNor = (Normals[^1] + Normals[^3] + Normals[^4]) / 3.0;
+        SmoothNormal.Add(smoothNor);
+        smoothNor = (Normals[^1] + Normals[^2] + Normals[^4]) / 3.0;
+        SmoothNormal.Add(smoothNor);
+        smoothNor = (Normals[^1] + Normals[^2] + Normals[^3]) / 3.0;
+        SmoothNormal.Add(smoothNor);
     }
 
     //: Установка света
     private void InstallLight() {
         // Включение режима двустороннего освещения
         gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_TWO_SIDE, OpenGL.GL_TRUE);
-        
+
         // Значения глобальной фоновой составляющей
-        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0.5f, 0.5f, 0.5f, 1f});
+        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0.5f, 0.5f, 0.5f, 1f });
 
         // Задание материала
         gl3D.Enable(OpenGL.GL_COLOR_MATERIAL);
+
+        // Если туман включен
+        if (isFog)
+        {
+            gl3D.Enable(OpenGL.GL_FOG);
+            gl3D.Fog(OpenGL.GL_FOG_MODE, OpenGL.GL_EXP2);
+            gl3D.Fog(OpenGL.GL_FOG_COLOR, new[] { 1f, 1f, 0.5f, 1f });
+            gl3D.Fog(OpenGL.GL_FOG_DENSITY, 0.05f);
+        }
 
         switch (ViewLight)
         {
             case 0:
                 // Точечный свет
                 gl3D.Enable(OpenGL.GL_LIGHT0);
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, new[] { 0f, 1f, 0f, 1f});
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f});
+                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, new[] { 0f, 1f, 0f, 1f });
+                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f });
                 gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, new[] { 0.5f, 0.5f, 0.5f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, new[] { 0.5f, 0.5f, 0.5f, 1f });
                 break;
 
             case 1:
                 gl3D.Enable(OpenGL.GL_LIGHT1);
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_POSITION, new[] { 0f, 10f, 0f, 1f });
+                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_POSITION, new[] { 0f, 5f, 0f, 1f });
                 gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f });
                 gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_DIFFUSE, new[] { 0.5f, 0.5f, 0.5f, 1f });
 
@@ -299,35 +327,21 @@ public partial class OpenGL3D : Window
 
             case 2:
                 gl3D.Enable(OpenGL.GL_LIGHT2);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_POSITION, new[] { 0f, 10f, 0f, 0f });
+                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_POSITION, new[] { 5f, 5f, -10f, 1f });
                 gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f });
                 gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_DIFFUSE, new[] { 0.5f, 0.5f, 0.5f, 1f });
 
                 // Прожектор
                 gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_EXPONENT, 0);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_CUTOFF, 180);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_DIRECTION, new[] { 0f, 0f, -2f, 1f});
-                break;
-
-            case 3:
-                gl3D.Enable(OpenGL.GL_LIGHT3);
-                gl3D.Light(OpenGL.GL_LIGHT3, OpenGL.GL_POSITION, new[] { 0f, 10f, 0f, 0f });
-                gl3D.Light(OpenGL.GL_LIGHT3, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f });
-                gl3D.Light(OpenGL.GL_LIGHT3, OpenGL.GL_DIFFUSE, new[] { 0.5f, 0.5f, 0.5f, 1f });
-
-                // Туман
-                gl3D.Enable(OpenGL.GL_FOG);
-                gl3D.Fog(OpenGL.GL_FOG_MODE, OpenGL.GL_EXP2);
-                gl3D.Fog(OpenGL.GL_FOG_COLOR, new[] { 1f, 1f, 0.5f, 1f });
-                gl3D.Fog(OpenGL.GL_FOG_DENSITY, 0.09f);
+                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_CUTOFF, 45);
+                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_DIRECTION, new[] { -1f, 0f, 0f, 1f });
                 break;
 
             default:
                 break;
         }
-
     }
- 
-
 }
+
+
 
