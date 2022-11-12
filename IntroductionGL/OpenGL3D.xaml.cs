@@ -1,5 +1,6 @@
 ﻿namespace IntroductionGL;
 
+//: Логика взаимодействия с окном OpenGL3D
 public partial class OpenGL3D : Window
 {
     public OpenGL3D()
@@ -33,11 +34,12 @@ public partial class OpenGL3D : Window
     public int  _texture  = 1; // Хранит текстуру
     /* ----------------------- Переменные --------------------------------- */
 
-    // Начальное состояние OpenGl
+    //: Начальное состояние OpenGl
     private void openGLControl3D_OpenGLInitialized(object sender, OpenGLRoutedEventArgs args) {
         gl3D = args.OpenGL;
     }
 
+    //: Функция отрисовки OpenGL
     private void openGLControl3D_OpenGLDraw(object sender, OpenGLRoutedEventArgs args) {
         // Очистка буфера цвета и глубины
         gl3D.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
@@ -94,6 +96,7 @@ public partial class OpenGL3D : Window
         gl3D.Finish();
     }
 
+    //: Состояние окна OpenGL при изменении размеров окна
     private void openGLControl3D_Resized(object sender, OpenGLRoutedEventArgs args)
     {
         // Вычисляем соотношение между шириной и высотой
@@ -136,7 +139,7 @@ public partial class OpenGL3D : Window
         {
             // Входные данные
             string json = File.ReadAllText("EventOpenGL3D/coordinates.json");
-            Data data = JsonConvert.DeserializeObject<Data>(json)!;
+            EventOpenGL3D.Data data = JsonConvert.DeserializeObject<EventOpenGL3D.Data>(json)!;
             if (data is null) throw new FileNotFoundException("File uncorrected!");
 
             // Отформатируем входные данные
@@ -261,25 +264,25 @@ public partial class OpenGL3D : Window
         }
         Normals.Add(Vector<float>.GetVectorPolygon(Figure[^1].section1, Figure[^1].section3, Figure[^1].section2));
 
-        // Вычисление сглаженных нормалей
-        var smoothNor = (Normals[0] + Normals[1] + Normals[2]) / 3.0;
+        // Вычисление сглаженных нормале
+        var smoothNor = (Normals[0] + Normals[1] + Normals[2]) / 3.0f;
         SmoothNormal.Add(smoothNor);
         SmoothNormal.Add(smoothNor);
         SmoothNormal.Add(smoothNor);
         for (int i = 1, numNor = 1; i < Figure.Count - 1; i++, numNor += 3)
         {
-            smoothNor = (Normals[numNor] + Normals[numNor + 1] + Normals[numNor + 3] + Normals[numNor + 4]) / 4.0;
+            smoothNor = (Normals[numNor] + Normals[numNor + 1] + Normals[numNor + 3] + Normals[numNor + 4]) / 4.0f;
             SmoothNormal.Add(smoothNor);
-            smoothNor = (Normals[numNor] + Normals[numNor + 2] + Normals[numNor + 3] + Normals[numNor + 5]) / 4.0;
+            smoothNor = (Normals[numNor] + Normals[numNor + 2] + Normals[numNor + 3] + Normals[numNor + 5]) / 4.0f;
             SmoothNormal.Add(smoothNor);
-            smoothNor = (Normals[numNor + 1] + Normals[numNor + 2] + Normals[numNor + 4] + Normals[numNor + 5]) / 4.0;
+            smoothNor = (Normals[numNor + 1] + Normals[numNor + 2] + Normals[numNor + 4] + Normals[numNor + 5]) / 4.0f;
             SmoothNormal.Add(smoothNor);
         }
-        smoothNor = (Normals[^1] + Normals[^3] + Normals[^4]) / 3.0;
+        smoothNor = (Normals[^1] + Normals[^3] + Normals[^4]) / 3.0f;
         SmoothNormal.Add(smoothNor);
-        smoothNor = (Normals[^1] + Normals[^2] + Normals[^4]) / 3.0;
+        smoothNor = (Normals[^1] + Normals[^2] + Normals[^4]) / 3.0f;
         SmoothNormal.Add(smoothNor);
-        smoothNor = (Normals[^1] + Normals[^2] + Normals[^3]) / 3.0;
+        smoothNor = (Normals[^1] + Normals[^2] + Normals[^3]) / 3.0f;
         SmoothNormal.Add(smoothNor);
     }
 

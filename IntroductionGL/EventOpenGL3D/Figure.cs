@@ -5,7 +5,7 @@ public partial class OpenGL3D : Window {
 
     //: Главная функция рисование фигуры
     private void DrawFigure() {
-
+        
         // Каркасные или некаркасный режим
         if (!isSceleton) {
             // Сглаженные нормали или несглаженные

@@ -1,10 +1,6 @@
-﻿using SharpGL.WPF;
+﻿namespace IntroductionGL;
 
-namespace IntroductionGL;
-
-/// <summary>
-/// Логика взаимодействия для OpenGL2D.xaml
-/// </summary>
+//: Логика взаимодействия с окном OpenGL2D
 public partial class OpenGL2D : Window
 {
     public OpenGL2D()

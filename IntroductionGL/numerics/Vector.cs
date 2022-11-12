@@ -1,7 +1,7 @@
 ﻿namespace IntroductionGL.numerics;
 
 public class Vector<T> : IEnumerable, ICloneable
-                where T : INumber<T>
+                where T : System.Numerics.INumber<T>
 {
     private T[] vector;                 /// Вектор
     public int Length { get; init; }   /// Размерность вектора
@@ -52,14 +52,14 @@ public class Vector<T> : IEnumerable, ICloneable
     }
 
     //* Перегрузка умножения на констунту (double)
-    public static Vector<T> operator *(double Const, Vector<T> vector)
+    public static Vector<T> operator *(T Const, Vector<T> vector)
     {
         var result = new Vector<T>(vector.Length);
         for (int i = 0; i < vector.Length; i++)
-            result[i] = T.Create(Const) * vector[i];
+            result[i] = Const * vector[i];
         return result;
     }
-    public static Vector<T> operator *(Vector<T> vector, double Const) => Const * vector;
+    public static Vector<T> operator *(Vector<T> vector, T Const) => Const * vector;
 
     //* Перегрузка умножения (на числовой вектор)
     public static Vector<T> operator *(Matrix mat, Vector<T> vec)
@@ -67,16 +67,16 @@ public class Vector<T> : IEnumerable, ICloneable
         var result = new Vector<T>(vec.Length);
         for (int i = 0; i < vec.Length; i++)
             for (int j = 0; j < vec.Length; j++)
-                result[i] += T.Create(mat[i, j]) * vec[j];
+                result[i] += T.CreateTruncating(mat[i,j]) * vec[j];
         return result;
     }
 
     //* Перегрузка деления на константу (double)
-    public static Vector<T> operator /(Vector<T> vector, double Const)
+    public static Vector<T> operator /(Vector<T> vector, T Const)
     {
         var result = new Vector<T>(vector.Length);
         for (int i = 0; i < vector.Length; i++)
-            result[i] = vector[i] / T.Create(Const);
+            result[i] = vector[i] / Const;
         return result;
     }
 
@@ -108,10 +108,10 @@ public class Vector<T> : IEnumerable, ICloneable
     }
 
     //* Заполнение вектора числом (double)
-    public void Fill(double val)
+    public void Fill(T val)
     {
         for (int i = 0; i < Length; i++)
-            vector[i] = T.Create(val);
+            vector[i] = val;
     }
 
     //* Копирование вектора

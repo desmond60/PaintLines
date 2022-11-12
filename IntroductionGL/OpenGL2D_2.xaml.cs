@@ -1,5 +1,6 @@
 ﻿namespace IntroductionGL;
 
+//: Логика взаимодействия с окном OpenGL2D_2
 public partial class OpenGL2D_2 : Window
 {
     public OpenGL2D_2()

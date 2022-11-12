@@ -26,22 +26,32 @@
                     Canvas.Right="2"
                     Canvas.Bottom="2"
                     Canvas.Top="2"
-                    Content="2D" Margin="10,10,10,10"/>
-
+                    Content="2D"
+                    Margin="10,10,10,10"/>
             <Button x:Name="ButtonLab2"
                     Click="ButtonLab2_Click"
                     Canvas.Left="2"
                     Canvas.Right="2"
                     Canvas.Bottom="2"
                     Canvas.Top="2"
-                    Content="2D (and, !and)" Margin="10,10,10,10"/>
+                    Content="2D (and, !and)"
+                    Margin="10,10,10,10"/>
             <Button x:Name="ButtonLab3"
                     Click="ButtonLab3_Click"
                     Canvas.Left="2"
                     Canvas.Right="2"
                     Canvas.Bottom="2"
                     Canvas.Top="2"
-                    Content="3D" Margin="10,10,10,10"/>
+                    Content="3D"
+                    Margin="10,10,10,10"/>
+            <Button x:Name="ButtonLab4"
+                    Click="ButtonLab4_Click"
+                    Canvas.Left="2"
+                    Canvas.Right="2"
+                    Canvas.Bottom="2"
+                    Canvas.Top="2"
+                    Content="3D (Rays)"
+                    Margin="10,10,10,10"/>
         </UniformGrid>
         <!--#endregion-->
         
