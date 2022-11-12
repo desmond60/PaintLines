@@ -100,7 +100,7 @@ public partial class OpenGL3D : Window
     private void openGLControl3D_Resized(object sender, OpenGLRoutedEventArgs args)
     {
         // Вычисляем соотношение между шириной и высотой
-        float ratio = (float)(openGLControl3D.ActualWidth / openGLControl3D.ActualHeight);
+        float aspect = (float)(openGLControl3D.ActualWidth / openGLControl3D.ActualHeight);
 
         // Устанавливаем матрицу проекции / определяет объем сцены
         gl3D.MatrixMode(MatrixMode.Projection);
@@ -113,13 +113,13 @@ public partial class OpenGL3D : Window
 
         // Если режим перспективы, иначе ортографическая проекция
         if (isPerspective)
-            gl3D.Perspective(60, ratio, 0.01f, 50.0f);
+            gl3D.Perspective(60, aspect, 0.01f, 50.0f);
         else
         {
             if (openGLControl3D.ActualWidth >= openGLControl3D.ActualHeight)
-                gl3D.Ortho(-10 * ratio, 10 * ratio, -10, 10, -100, 100);
+                gl3D.Ortho(-10 * aspect, 10 * aspect, -10, 10, -100, 100);
             else
-                gl3D.Ortho(-10, 10, -10 / ratio, 10 / ratio, -100, 100);
+                gl3D.Ortho(-10, 10, -10 / aspect, 10 / aspect, -100, 100);
         }
 
         // Возврат к матрице модели GL_MODELVIEW
@@ -211,7 +211,7 @@ public partial class OpenGL3D : Window
             Vector<float> section3 = new Vector<float>(new[] { Section[2][0], Section[2][1], Section[2][2], 1f });
 
             // Масштабируем треугольник
-            Matrix matrixScale = new Matrix(new float[4, 4]{
+            Matrix<float> matrixScale = new Matrix<float>(new float[4, 4]{
                 {ChangeParam[i][0], 0f, 0f, 0f},
                 {0f, ChangeParam[i][1], 0f, 0f},
                 {0f, 0f, ChangeParam[i][2], 0f},
@@ -228,7 +228,7 @@ public partial class OpenGL3D : Window
                 float s = (float)(Sin(Angles[i] * PI / 180.0));
                 Vector<float> v = Vector<float>.Normalize(axe);
 
-                Matrix matrixRotation = new Matrix(new float[4, 4]{
+                Matrix<float> matrixRotation = new Matrix<float>(new float[4, 4]{
                     {c + v[0]*v[0]*(1 - c)     ,   v[0]*v[1]*(1 - c) - v[2]*s,   v[0]*v[2]*(1 - c) + v[1]*s, 0f},
                     {v[1]*v[0]*(1 - c) + v[2]*s,   c + v[1]*v[1]*(1 - c)     ,   v[1]*v[2]*(1 - c) - v[0]*s, 0f},
                     {v[2]*v[0]*(1 - c) - v[1]*s,   v[2]*v[1]*(1 - c) + v[0]*s,   c + v[2]*v[2]*(1 - c)     , 0f},
@@ -240,7 +240,7 @@ public partial class OpenGL3D : Window
             }
 
             // Сдвигаем треугольник
-            Matrix matrixShift = new Matrix(new float[4, 4]{
+            Matrix<float> matrixShift = new Matrix<float>(new float[4, 4]{
                 {1f, 0f, 0f, shift[0]},
                 {0f, 1f, 0f, shift[1]},
                 {0f, 0f, 1f, shift[2]},

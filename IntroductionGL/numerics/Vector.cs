@@ -1,13 +1,11 @@
 ﻿namespace IntroductionGL.numerics;
 
-public class Vector<T> : IEnumerable, ICloneable
+// % ****** Класс вектора ***** % //
+public class Vector<T> : ICloneable
                 where T : System.Numerics.INumber<T>
 {
-    private T[] vector;                 /// Вектор
-    public int Length { get; init; }   /// Размерность вектора
-
-    //* Реализация IEnumerable
-    public IEnumerator GetEnumerator() => vector.GetEnumerator();
+    public T[] vector;                    /// Вектор
+    public int Length => vector.Length;   /// Размерность вектора
 
     //* Перегрузка неявного преобразования
     public static explicit operator T[](Vector<T> vec) {
@@ -20,18 +18,19 @@ public class Vector<T> : IEnumerable, ICloneable
         vec = this.vector;
     }
 
+    [JsonConstructor]
+    public Vector() { }
+
     //* Конструктор (с размерностью)
     public Vector(int lenght)
     {
         vector = new T[lenght];
-        this.Length = lenght;
     }
 
     //* Конструктор (с массивом)
     public Vector(T[] array)
     {
         vector = new T[array.Length];
-        this.Length = array.Length;
         Array.Copy(array, vector, array.Length);
     }
 
@@ -62,7 +61,7 @@ public class Vector<T> : IEnumerable, ICloneable
     public static Vector<T> operator *(Vector<T> vector, T Const) => Const * vector;
 
     //* Перегрузка умножения (на числовой вектор)
-    public static Vector<T> operator *(Matrix mat, Vector<T> vec)
+    public static Vector<T> operator *(Matrix<T> mat, Vector<T> vec)
     {
         var result = new Vector<T>(vec.Length);
         for (int i = 0; i < vec.Length; i++)

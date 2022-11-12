@@ -1,0 +1,53 @@
+{
+  "Spheres": [
+    {
+      "Center": { "vector": [ 0, 0, 0 ] },
+      "R": 5,
+      "Ambient": { "vector": [ 0.19125, 0.0735, 0.0225, 1.0 ] },
+      "Diffuse": { "vector": [ 0.7038, 0.27048, 0.0828, 1.0 ] },
+      "Specular": { "vector": [ 0.5, 0.5, 0.5, 1.0 ] },
+      "Emission": { "vector": [ 0.95, 0.06, 0.11, 1.0 ] },
+      "Shine": 100
+    },
+    {
+      "Center": { "vector": [ 10, 10, 10 ] },
+      "R": 3,
+      "Ambient": { "vector": [ 0.19125, 0.0735, 0.0225, 1.0 ] },
+      "Diffuse": { "vector": [ 0.7038, 0.27048, 0.0828, 1.0 ] },
+      "Specular": { "vector": [ 0.4, 0.4, 0.4, 1.0 ] },
+      "Emission": { "vector": [ 0.55, 0.36, 0.11, 1.0 ] },
+      "Shine": 100
+    }
+  ],
+
+  "Tetrahedrons": [
+    {
+      "Center": { "vector": [ -2, -2, 2 ] },
+      "Node": [
+        { "vector": [ 2, -2, -2 ] },
+        { "vector": [ 0, 2, 0 ] },
+        { "vector": [ 0, -2, 2 ] },
+        { "vector": [ -2, 0, -1 ] }
+      ],
+      "Ambient": { "vector": [ 0.19125, 0.0735, 0.0225, 1.0 ] },
+      "Diffuse": { "vector": [ 0.7038, 0.27048, 0.0828, 1.0 ] },
+      "Specular": { "vector": [ 0.5, 0.5, 0.5, 1.0 ] },
+      "Emission": { "vector": [ 0.95, 0.06, 0.11, 1.0 ] },
+      "Shine": 100
+    },
+    {
+      "Center": { "vector": [ -1, -2, -1 ] },
+      "Node": [
+        { "vector": [ 1, -2, -1 ] },
+        { "vector": [ 0, 2, 0 ] },
+        { "vector": [ 0, -2, 1 ] },
+        { "vector": [ -4, 0, 2 ] }
+      ],
+      "Ambient": { "vector": [ 0.19125, 0.0735, 0.0225, 1.0 ] },
+      "Diffuse": { "vector": [ 0.7038, 0.27048, 0.0828, 1.0 ] },
+      "Specular": { "vector": [ 0.4, 0.4, 0.4, 1.0 ] },
+      "Emission": { "vector": [ 0.55, 0.36, 0.11, 1.0 ] },
+      "Shine": 100
+    }
+  ]
+}

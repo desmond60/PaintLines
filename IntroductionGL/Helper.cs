@@ -1,12 +1,14 @@
 ﻿namespace IntroductionGL;
 
-// Структура треугольника (сечения)
+// Структура треугольник (сечения)
 public struct Triangle {
 
     //: Первая секция
     public Vector<float> section1 { get; set; }
+    
     //: Вторая секция
     public Vector<float> section2 { get; set; }
+    
     //: Третья секция
     public Vector<float> section3 { get; set; }
 
@@ -18,7 +20,30 @@ public struct Triangle {
     }
 }
 
-// Структура точки
+// Структура квадрат
+public struct Square {
+
+    //: Координата центра квадрата
+    public Vector<float> Center { get; set; }
+
+    //: Цвет квадрата
+    public Color Color { get; set; } = new Color(255, 255, 255, 255);
+    
+    //: Коэффициент растяжения по оси Z
+    public float ScaleZ { get; set; }
+
+    //: Коэффициент растяжения по оси X
+    public float ScaleX { get; set; }
+
+    //: Конструктор
+    public Square(Vector<float> _center, float _scaleZ, float _scaleX) {
+        this.Center = (Vector<float>)_center.Clone();
+        this.ScaleZ = _scaleZ;
+        this.ScaleX = _scaleX;
+    }
+}
+
+// Структура точка
 public struct Point { 
     
     //: Координата X
@@ -51,7 +76,28 @@ public struct Point {
     }
 }
 
-// Структура цвета
+// Структура источника света
+public struct Light { 
+    
+    //: Позиция источника света
+    Vector<float> Position { get; set; }
+
+    //: Цвет источника света
+    Color Color { get; set; }
+
+    //: Конструктор
+    public Light(Vector<float> _pos) { 
+        this.Position = (Vector<float>)_pos.Clone();
+    }
+
+    //: Конструктор с цветом
+    public Light(Vector<float> _pos, Color _color) {
+        this.Position = (Vector<float>)_pos.Clone();
+        this.Color = _color;
+    }
+}
+
+// Структура цвет
 public struct Color {
 
     //: Компонента R
@@ -89,7 +135,7 @@ public struct Color {
     public override string ToString() => $"({R}, {G}, {B})";
 }
 
-// Структура примитива правильный пятиугольник
+// Структура примитив "Правильный пятиугольник"
 public struct PrimitiveFiveRect { 
     
     //: Вершины примитива
@@ -114,7 +160,7 @@ public struct PrimitiveFiveRect {
     }
 }
 
-// Структура примитива Линии
+// Структура примитив "Линия"
 public struct Primitive {
 
     //: Вершины примитива
@@ -149,7 +195,7 @@ public struct Primitive {
     }
 }
 
-// Структура набора примитивов
+// Структура набор примитивов
 public struct CollectionPrimitives : IEnumerable {
 
     //: Лист с примитивами
@@ -169,6 +215,77 @@ public struct CollectionPrimitives : IEnumerable {
 
     //: Строковое представление набора примитивов
     public override string ToString() => $"CollPrimitives_{Primitives.Count}";
+}
+
+// Структура сфера
+public struct Sphere {
+
+    //: Координаты центра сферы
+    public Vector<float> Center { get; set; }
+
+    //: Радиус сферы
+    public float R { get; set; }
+
+    //: Цвет сферы
+    public Color Color { get; set; } = new Color(0, 0, 255, 255);
+
+    //: Отрисовать сферу на сцене?
+    public bool isShow = true;
+
+    //: Материалы
+    public Vector<float> Ambient  { get; set; } // Фоновое отражение
+    public Vector<float> Diffuse  { get; set; } // Рассеянное отражение
+    public Vector<float> Specular { get; set; } // Зеркальное отражение
+    public Vector<float> Emission { get; set; } // Собственное излучение
+    public        float  Shine    { get; set; } // Коэффициент блеска
+
+    //: Конструктор
+    public Sphere(Vector<float> _center, float _R) {
+        this.Center = (Vector<float>)_center.Clone();
+        this.R = _R;
+
+        Ambient = new Vector<float>(4);
+        Diffuse = new Vector<float>(4);
+        Specular = new Vector<float>(4);
+        Emission = new Vector<float>(4);
+        Shine = 0;
+    }
+}
+
+// Структура тетраэдр
+public struct Tetrahedron { 
+    
+    //: Координаты центра тетраэдра
+    public Vector<float> Center { get; set; }
+
+    //: Координаты вершин тетраэдра
+    public Vector<float>[] Node { get; set; }
+
+    //: Цвет тетраэдра
+    public Color Color { get; set; } = new Color(0, 0, 255, 255);
+
+    //: Отрисовать тетраэдр на сцене?
+    public bool isShow = true;
+
+    //: Материалы
+    public Vector<float> Ambient  { get; set; } // Фоновое отражение
+    public Vector<float> Diffuse  { get; set; } // Рассеянное отражение
+    public Vector<float> Specular { get; set; } // Зеркальное отражение
+    public Vector<float> Emission { get; set; } // Собственное излучение
+    public        float Shine     { get; set; } // Коэффициент блеска
+
+    //: Конструктор
+    public Tetrahedron(Vector<float>[] _node, Vector<float> _center)
+    {
+        this.Center = (Vector<float>)_center.Clone();
+        this.Node = (Vector<float>[])_node.Clone();
+
+        Ambient = new Vector<float>(4);
+        Diffuse = new Vector<float>(4);
+        Specular = new Vector<float>(4);
+        Emission = new Vector<float>(4);
+        Shine = 0;
+    }
 }
 
 // Статический класс "Помощник"
