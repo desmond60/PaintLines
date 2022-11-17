@@ -1,5 +1,6 @@
 ﻿namespace IntroductionGL;
 
+//: Логика взаимодействия с окном MainWindow
 public partial class MainWindow : Window
 {
     public MainWindow() {

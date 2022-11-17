@@ -144,5 +144,12 @@ public partial class OpenGL2D_2 : Window
         isTexture = true;
         texture.Create(gl2D, @"D:\Хрень\avatar.jpg");
     }
+
+    private void SwitchWindow_Click(object sender, RoutedEventArgs e)
+    {
+        MainWindow window = new MainWindow();
+        window.Show();
+        this.Close();
+    }
 }
 

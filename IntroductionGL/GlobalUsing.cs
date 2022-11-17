@@ -1,4 +1,4 @@
-﻿// Системные
+﻿// System
 global using System.Collections;
 global using System.Collections.Generic;
 global using System;
@@ -11,22 +11,22 @@ global using System.IO;
 global using System.Diagnostics;
 global using System.Text;
 
-// Системные статические
+// System-static
 global using static System.Math;
 
-// Пакеты
+// NuGet
 global using SharpGL;
 global using SharpGL.Enumerations;
 global using SharpGL.WPF;
 global using SharpGL.SceneGraph.Assets;
 global using Newtonsoft.Json;
 
-// Мои
+// Project
 global using IntroductionGL;
 global using IntroductionGL.numerics;
 
-// Мои статические
+// Project-static
 global using static IntroductionGL.Helper;
 
-// Псевдонимы
+// Alias
 global using Vector = System.Numerics.Vector;

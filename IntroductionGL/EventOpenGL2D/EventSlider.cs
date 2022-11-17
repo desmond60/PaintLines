@@ -1,5 +1,6 @@
 ﻿namespace IntroductionGL;
 
+//: Обработчики Slider
 public partial class OpenGL2D : Window {
 
     //: Обработчк Slider изменения ширины линии

@@ -1,5 +1,6 @@
 ﻿namespace IntroductionGL;
 
+//: Обработчики Button
 public partial class OpenGL2D : Window {
 
     //: Обработчки кнопки "Удаление примитива"
@@ -109,4 +110,10 @@ public partial class OpenGL2D : Window {
         ButtonEditColPrim.IsEnabled = false;
     }
 
+    //: Обработчик кнопки переключения окон
+    private void SwitchWindow_Click(object sender, RoutedEventArgs e) {
+        MainWindow window = new MainWindow();
+        window.Show();
+        this.Close();
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace IntroductionGL;
 
-//: Обработчкики клавиш
+//: Обработчкики Key
 public partial class OpenGL2D : Window
 {
     public readonly Point speed_point = new Point(0.01f, 0.01f);   // Скороость перемещения примитива или набора примитивов

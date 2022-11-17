@@ -20,6 +20,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Image\SwitchWindow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="gimp.ico" />
   </ItemGroup>
 
@@ -31,6 +35,10 @@
     <PackageReference Include="SharpGL.WPF" Version="3.1.1" />
     <PackageReference Include="System.Runtime.Experimental" Version="6.0.2" />
     <PackageReference Include="WPFToggleSwitch" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Image\SwitchWindow.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ public partial class OpenGL3D : Window {
         dlg.Filter = "BMP Files (*.bmp)|*.bmp";
 
         // Вызов окошка
-        Nullable<bool> result = dlg.ShowDialog();
+        bool? result = dlg.ShowDialog();
 
         // Проверка на успешность
         if (result == true)
@@ -29,5 +29,12 @@ public partial class OpenGL3D : Window {
             _texture = dictTexture.Count;
             ComboBoxViewTexture.SelectedIndex = dictTexture.Count - 1;
         }
+    }
+
+    //: Обработчик нажатия кнопки переключения окон
+    private void SwitchWindow_Click(object sender, RoutedEventArgs e) {
+        MainWindow window = new MainWindow();
+        window.Show();
+        this.Close();
     }
 }

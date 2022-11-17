@@ -1,6 +1,6 @@
 ﻿namespace IntroductionGL.EventOpenGL3D_Rays;
 
-// % ***** Класс сцены с объектами ***** % //
+// % ***** Class Stage ***** % //
 public class Stage
 {
     //: Поля и свойства
@@ -20,10 +20,26 @@ public class Stage
         Array.Copy(_light, Lights, _light.Length);
     }
 
-    //: Отрисовка
-    public void Draw(OpenGL gl) { 
+    //: Метод обработки тени
+    public bool IsShade(Ray ray) {
+
+        // Проходимся по сферам
+        for (int i = 0; i < Spheres.Length; i++)
+            if (Spheres[i].isShow)
+                if (Spheres[i].collision(ray))
+                    return true;
+
+        // Проходимся по тетраэдрам
+        for (int i = 0; i < Tetrahedrons.Length; i++)
+            if (Tetrahedrons[i].isShow)
+                if (Tetrahedrons[i].collision(ray))
+                    return true;
         
-        
+        // Проверим плоскость
+        if (Square.collision(ray))
+            return true;
+
+        return false;
     }
 }
 

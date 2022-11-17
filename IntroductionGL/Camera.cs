@@ -1,11 +1,11 @@
 ﻿namespace IntroductionGL;
 
-//: Класс с положением и направлением камеры
+// % ***** Class Camera ***** % //
 public class Camera
 {
     public Vector<float> Position;     // Положение камеры
     public Vector<float> Orientation;  // Направление камеры
-    public Vector<float> Rotation;     // Поворот сцены
+    public Vector<float> Rotation;     // Поворот камеры
 
     //: Конструктор
     public Camera() {
@@ -30,6 +30,7 @@ public class Camera
         Position[0] += opinion[0] * speed;
         Position[2] += opinion[2] * speed;
 
+        // Меняем точку ориентира
         Orientation[0] += opinion[0] * speed;
         Orientation[2] += opinion[2] * speed;
     }
@@ -41,6 +42,8 @@ public class Camera
 
         // Поднимаем или отпускаем камеру
         Position[1]    += opinion[1] * speed;
+
+        // Меняем точку ориентира
         Orientation[1] += opinion[1] * speed;
     }
 

@@ -128,6 +128,18 @@
                 Canvas.Left="167" 
                 Canvas.Top="239"/>
 
+            <!-- % ***** Button Switch Window's ***** % -->
+            <Button x:Name="SwitchWindow"
+                Width="20"
+                Height="20" 
+                Canvas.Left="314"
+                Canvas.Top="653"
+                Click="SwitchWindow_Click">
+                <StackPanel >
+                    <Image Source="/Image/SwitchWindow.png"/>
+                </StackPanel>
+            </Button>
+
         </Canvas>
         <!--#endregion-->
 

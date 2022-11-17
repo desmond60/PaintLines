@@ -51,6 +51,36 @@
                        FontSize="18"
                        Canvas.Top="10"/>
 
+            <!-- % ***** Toggle (Сетка) ***** % -->
+            <DockPanel Canvas.Top="45"
+                       Width="330">
+                <TextBlock Margin="20,2,0,2"
+                           FontSize="16"
+                           HorizontalAlignment="Left"
+                           Text="Трассировка"/>
+                <toggle:ToggleSwitch x:Name="ToggleRayTracer"
+                                     IsChecked="False" 
+                                     Cursor="Hand" 
+                                     HorizontalAlignment="Right"
+                                     CheckedText="Вкл." 
+                                     UncheckedText="Выкл."
+                                     Click="ToggleRayTracer_Click" 
+                                     SwitchContentPlacement="Right"
+                                     FocusManager.FocusedElement="{Binding ElementName=openGLControl3D}"/>
+            </DockPanel>
+
+            <!-- % ***** Button Switch Window's ***** % -->
+            <Button x:Name="SwitchWindow"
+                Width="20"
+                Height="20" 
+                Canvas.Left="314"
+                Canvas.Top="653"
+                Click="SwitchWindow_Click">
+                <StackPanel >
+                    <Image Source="/Image/SwitchWindow.png"/>
+                </StackPanel>
+            </Button>
+
         </Canvas>
 
     </Grid>

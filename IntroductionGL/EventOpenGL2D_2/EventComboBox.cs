@@ -1,13 +1,11 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-
-namespace IntroductionGL;
+﻿namespace IntroductionGL;
 
 //: События ComboBox
 public partial class OpenGL2D_2 : Window {
 
     //: Обработка comboBoxPrimitive
     private void ComboBoxPrimitives_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
         // Если ComboBox не пуст
         if (!String.IsNullOrEmpty(ComboBoxPrimitives.SelectedValue?.ToString()))
         {
@@ -39,6 +37,7 @@ public partial class OpenGL2D_2 : Window {
 
     //: Обработчик ComboBox точек примитива
     private void ComboBoxPointPrim_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
         // Если ComboBox не пуст
         if (!String.IsNullOrEmpty(ComboBoxPointPrim.SelectedValue?.ToString()))
         {

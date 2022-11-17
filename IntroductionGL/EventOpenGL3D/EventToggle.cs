@@ -1,8 +1,7 @@
 ﻿namespace IntroductionGL;
 
-//: Обработчики элементов Toggle
-public partial class OpenGL3D : Window
-{
+//: Обработчики Toggle
+public partial class OpenGL3D : Window {
 
     //: Обработчик Toggle "Вкл./Выкл. сетки"
     private void ToggleGrid_Click(object sender, RoutedEventArgs e) {

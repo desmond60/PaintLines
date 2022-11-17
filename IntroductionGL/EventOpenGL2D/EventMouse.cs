@@ -1,13 +1,14 @@
 ﻿namespace IntroductionGL;
 
-//: Обработчики мыши
+//: Обработчики Mouse
 public partial class OpenGL2D : Window {
 
-    public List<Point> TempPoints = new List<Point>();             // Точки созданного примитивов
-    public bool isCreateColPrim = false;                           // Создан ли примитив?
+    public List<Point> TempPoints = new List<Point>();   // Точки созданного примитивов
+    public bool isCreateColPrim = false;                 // Создан ли примитив?
 
     //: Обработчик нажатия мыши на окошко OpenGL
     private void OpenGLControl_MouseDown(object sender, MouseButtonEventArgs e) {
+
         // Если не включен режим редактирования
         if (!isEditingModePrim)
             if (e.LeftButton == MouseButtonState.Pressed) {
@@ -39,7 +40,7 @@ public partial class OpenGL2D : Window {
                     isCreateColPrim                  = true;    // True: примитив создан
                     ComboBoxCollPrimitives.IsEnabled = true;    // Вкл. ComboBox кол. примитивов, т.к. примитив создан до конца
 
-                    // Если включен режим редак. Кол. примитивов и отключен режим редак. примитива
+                    // Если включен режим редак. кол. примитивов и отключен режим редак. примитива
                     // Добавить новый примитив в сущ. коллекцию
                     if (isEditingModeColPrim && !isEditingModePrim) {
                         ComboBoxPrimitives.Items.Add(Primitives[^1].Name);

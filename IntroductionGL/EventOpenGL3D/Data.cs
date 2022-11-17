@@ -1,16 +1,16 @@
 ﻿namespace IntroductionGL.EventOpenGL3D;
 
-//: Класс Data под Json
+// % ***** Class Data for Json ***** % //
 public class Data {
     
-    // Входные данные
+    //: Входные данные
     public float[][] Section                  { get; set; }   // Координаты 2D сечения
     public float[][] Trajectory               { get; set; }   // Координаты траектории тиражирования
     public float[][] ChangeParam              { get; set; }   // Параметры изменения сечения
     public float[]   Angles                   { get; set; }   // Углы поворота треугольников
     public float[]   PercentForChangeParam    { get; set; }   // Проценты изменения сечения
 
-    // Деконструктор
+    //: Деконструктор
     public void Deconstruct(out Vector<float>[] section,
                             out Vector<float>[] trajectory,
                             out Vector<float>[] changeparam,

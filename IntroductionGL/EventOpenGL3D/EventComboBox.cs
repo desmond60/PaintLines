@@ -1,8 +1,8 @@
 ﻿namespace IntroductionGL;
 
 //: Обработчики ComboBox
-public partial class OpenGL3D : Window
-{
+public partial class OpenGL3D : Window {
+
     //: Обработчик ComboBox "Projection"
     private void ComboBoxProjection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
         if (gl3D is null) return;

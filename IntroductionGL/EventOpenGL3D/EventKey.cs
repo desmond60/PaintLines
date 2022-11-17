@@ -1,8 +1,8 @@
 ﻿namespace IntroductionGL;
 
-//: Обработчики клавиш
-public partial class OpenGL3D : Window
-{
+//: Обработчики Key
+public partial class OpenGL3D : Window {
+
     //: Обработка нажатий клавиш
     private void Grid_KeyDown(object sender, KeyEventArgs e) {
         

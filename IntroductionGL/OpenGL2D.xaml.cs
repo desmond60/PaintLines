@@ -200,6 +200,5 @@ public partial class OpenGL2D : Window
             return;
         }
     }
-
 }
 

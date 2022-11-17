@@ -1,11 +1,14 @@
 ﻿namespace IntroductionGL;
+
+//: Обработчики Mouse
 public partial class OpenGL2D_2 : Window
 {
-    public List<Point> TempPoints = new List<Point>();             // Точки созданного примитивов
-    public bool isCreateColPrim = false;                           // Создан ли примитив?.
+    public List<Point> TempPoints = new List<Point>();   // Точки созданного примитивов
+    public bool isCreateColPrim = false;                 // Создан ли примитив?.
 
-    //: Обработчики мыши
+    //: Обработчик мыши
     private void OpenGLControl_MouseDown(object sender, MouseButtonEventArgs e) {
+
         if (e.LeftButton == MouseButtonState.Pressed)
         {
             // Вычисляем координаты точки нажати и вмещяем в диапозон (0,1)

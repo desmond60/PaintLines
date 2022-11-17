@@ -12,7 +12,6 @@
         MinHeight="150" MinWidth="480"
         MaxHeight="150" MaxWidth="480"
 
-    
         FontFamily="Times New Roman" 
         FontWeight="Bold" FontSize="14">
 

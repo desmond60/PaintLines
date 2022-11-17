@@ -12,21 +12,21 @@ public partial class OpenGL3D : Window
     /* ----------------------- Переменные --------------------------------- */
     OpenGL gl3D; // Переменная OpenGl
 
-    public List<Triangle> Figure = new List<Triangle>();      // Треугольники
-    public List<Vector<float>> Normals = new List<Vector<float>>(); // Нормали
-    public List<Vector<float>> SmoothNormal = new List<Vector<float>>(); // Сглаженные нормали
+    public List<Triangle> Figure            = new List<Triangle>();        // Треугольники
+    public List<Vector<float>> Normals      = new List<Vector<float>>();   // Нормали
+    public List<Vector<float>> SmoothNormal = new List<Vector<float>>();   // Сглаженные нормали
 
-    public Camera camera = new Camera(); // Камера
-    public Texture texture = new Texture(); // Текстура
+    public Camera camera   = new Camera();    // Камера
+    public Texture texture = new Texture();   // Текстура
 
-    public bool isLight = true; // Вкл./Выкл. света
-    public bool isGrid = true; // Вкл./Выкл. сетки
-    public bool isDepth = true; // Вкл./Выкл. буфера глубины
-    public bool isSceleton = false; // Вкл./Выкл. каркасного режима
-    public bool isDrawNormal = false; // Вкл./Выкл. демонстрации нормалей
-    public bool isShowTexture = false; // Вкл./Выкл. текстурирование фигуры
+    public bool isLight        = true;  // Вкл./Выкл. света
+    public bool isGrid         = true;  // Вкл./Выкл. сетки
+    public bool isDepth        = true;  // Вкл./Выкл. буфера глубины
+    public bool isSceleton     = false; // Вкл./Выкл. каркасного режима
+    public bool isDrawNormal   = false; // Вкл./Выкл. демонстрации нормалей
+    public bool isShowTexture  = false; // Вкл./Выкл. текстурирование фигуры
     public bool isSmoothNormal = false; // Вкл./Выкл. сглаживание нормалей
-    public bool isFog = false; // Вкл./Выкл. туман
+    public bool isFog          = false; // Вкл./Выкл. туман
 
     public bool isPerspective = true; // Если перспективный режим
 
@@ -41,6 +41,7 @@ public partial class OpenGL3D : Window
 
     //: Функция отрисовки OpenGL
     private void openGLControl3D_OpenGLDraw(object sender, OpenGLRoutedEventArgs args) {
+
         // Очистка буфера цвета и глубины
         gl3D.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
@@ -60,9 +61,9 @@ public partial class OpenGL3D : Window
         gl3D.LoadIdentity();
 
         // Устанавливаем камеру
-        gl3D.LookAt(camera.Position[0], camera.Position[1], camera.Position[2],
+        gl3D.LookAt(camera.Position[0],    camera.Position[1],    camera.Position[2],
                     camera.Orientation[0], camera.Orientation[1], camera.Orientation[2],
-                    camera.Rotation[0], camera.Rotation[1], camera.Rotation[2]);
+                    camera.Rotation[0],    camera.Rotation[1],    camera.Rotation[2]);
 
         // Установка освещения
         if (isLight)
@@ -97,8 +98,8 @@ public partial class OpenGL3D : Window
     }
 
     //: Состояние окна OpenGL при изменении размеров окна
-    private void openGLControl3D_Resized(object sender, OpenGLRoutedEventArgs args)
-    {
+    private void openGLControl3D_Resized(object sender, OpenGLRoutedEventArgs args) {
+
         // Вычисляем соотношение между шириной и высотой
         float aspect = (float)(openGLControl3D.ActualWidth / openGLControl3D.ActualHeight);
 
@@ -114,8 +115,7 @@ public partial class OpenGL3D : Window
         // Если режим перспективы, иначе ортографическая проекция
         if (isPerspective)
             gl3D.Perspective(60, aspect, 0.01f, 50.0f);
-        else
-        {
+        else {
             if (openGLControl3D.ActualWidth >= openGLControl3D.ActualHeight)
                 gl3D.Ortho(-10 * aspect, 10 * aspect, -10, 10, -100, 100);
             else
@@ -127,8 +127,8 @@ public partial class OpenGL3D : Window
     }
 
     //: Загрузка всех вспомогательных ресурсов
-    private void Load()
-    {
+    private void Load() {
+
         // % ***** Чтение входных сечений и траекторий ***** %
         Vector<float>[] Section;      // Координаты 2D сечения
         Vector<float>[] Trajectory;   // Координаты траектории тиражирования
@@ -147,7 +147,7 @@ public partial class OpenGL3D : Window
         }
         catch (FileNotFoundException ex)
         {
-            Trace.WriteLine(ex.Message);
+            MessageBox.Show(ex.Message);
             return;
         }
 
@@ -286,64 +286,6 @@ public partial class OpenGL3D : Window
         SmoothNormal.Add(smoothNor);
     }
 
-    //: Установка света
-    private void InstallLight() {
-        // Включение режима двустороннего освещения
-        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_TWO_SIDE, OpenGL.GL_TRUE);
-
-        // Значения глобальной фоновой составляющей
-        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0.5f, 0.5f, 0.5f, 1f });
-
-        // Задание материала
-        gl3D.Enable(OpenGL.GL_COLOR_MATERIAL);
-
-        // Если туман включен
-        if (isFog)
-        {
-            gl3D.Enable(OpenGL.GL_FOG);
-            gl3D.Fog(OpenGL.GL_FOG_MODE, OpenGL.GL_EXP2);
-            gl3D.Fog(OpenGL.GL_FOG_COLOR, new[] { 1f, 1f, 0.5f, 1f });
-            gl3D.Fog(OpenGL.GL_FOG_DENSITY, 0.05f);
-        }
-
-        switch (ViewLight)
-        {
-            case 0:
-                // Точечный свет
-                gl3D.Enable(OpenGL.GL_LIGHT0);
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, new[] { 0f, 1f, 0f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f });
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, new[] { 0.5f, 0.5f, 0.5f, 1f });
-                break;
-
-            case 1:
-                gl3D.Enable(OpenGL.GL_LIGHT1);
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_POSITION, new[] { 0f, 5f, 0f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f });
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_DIFFUSE, new[] { 0.5f, 0.5f, 0.5f, 1f });
-
-                // Затухание
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_CONSTANT_ATTENUATION, 0);
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_LINEAR_ATTENUATION, 0.05f);
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_QUADRATIC_ATTENUATION, 0.05f);
-                break;
-
-            case 2:
-                gl3D.Enable(OpenGL.GL_LIGHT2);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_POSITION, new[] { 5f, 5f, -10f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_AMBIENT, new[] { 0.4f, 0.4f, 0.4f });
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_DIFFUSE, new[] { 0.5f, 0.5f, 0.5f, 1f });
-
-                // Прожектор
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_EXPONENT, 0);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_CUTOFF, 45);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_DIRECTION, new[] { -1f, 0f, 0f, 1f });
-                break;
-
-            default:
-                break;
-        }
-    }
 }
 
 

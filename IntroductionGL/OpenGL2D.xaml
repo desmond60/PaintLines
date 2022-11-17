@@ -15,6 +15,7 @@
         FontWeight="Bold" FontSize="14"
     
         KeyDown="Grid_KeyDown">
+
     <Grid>
 
         <!--#region  % ***** Вид сетки ***** % -->
@@ -110,7 +111,7 @@
                     Height="26" 
                     Width="65"
                     FocusManager.FocusedElement="{Binding ElementName=openGLControl2D}"/>
-                
+
                 <!-- % ***** Удаление последнего примитива в наборе ***** %-->
                 <Label Content="Удалить последний примитив:" 
                    Canvas.Left="10" 
@@ -125,7 +126,7 @@
                     Height="26" 
                     Width="65"
                     FocusManager.FocusedElement="{Binding ElementName=openGLControl2D}"/>
-                
+
                 <!-- % ***** Изменить ширину линий в наборе примитивов ***** % -->
                 <Label Content="Ширина линий" 
                    Canvas.Left="10" 
@@ -246,7 +247,19 @@
                                              FontFamily="Consolas"
                                              FontSize="13"/>
 
+            <!-- % ***** Button Switch Window's ***** % -->
+            <Button x:Name="SwitchWindow"
+                Width="20"
+                Height="20" 
+                Canvas.Left="314"
+                Canvas.Top="603"
+                Click="SwitchWindow_Click">
+                <StackPanel >
+                    <Image Source="/Image/SwitchWindow.png"/>
+                </StackPanel>
+            </Button>
         </Canvas>
         <!--#endregion-->
+
     </Grid>
 </Window>

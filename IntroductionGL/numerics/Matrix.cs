@@ -1,12 +1,12 @@
 ﻿namespace IntroductionGL.numerics;
 
-// % ***** Класс квадратной матрицы ***** % //
+// % ***** Class Matrix ***** % //
 public class Matrix<T> : ICloneable
                 where T : System.Numerics.INumber<T>
 {
     //: Поля и свойства
-    private T[,] matrix;           /// Матрица (квадратная)
-    public int Dim { get; init; }       /// Размерность матрицы
+    private T[,] matrix;           // Матрица (квадратная)
+    public int Dim { get; init; }  // Размерность матрицы
 
     //: Конструктор (с размерностью)
     public Matrix(int _dim)
