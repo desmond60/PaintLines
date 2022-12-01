@@ -98,7 +98,7 @@ public partial class OpenGL3D : Window {
                 switch (lights[i].Type)
                 {
                     case TypeLight.DIRECTED:
-                        var directed = (float[])lights[i].Direction;
+                        var directed = (float[])(-lights[i].Direction);
                         directed[3] = 0f; // Делаем омегу равную нулю, чтобы свет был направленный, а иначе будет точечный
                         gl3D.Light(cur_light, OpenGL.GL_POSITION, directed);
                         break;
