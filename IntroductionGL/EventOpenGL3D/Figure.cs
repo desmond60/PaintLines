@@ -5,7 +5,7 @@ public partial class OpenGL3D : Window {
 
     //: Главная функция рисование фигуры
     private void DrawFigure() {
-        
+
         // Каркасные или некаркасный режим
         if (!isSceleton) {
             // Сглаженные нормали или несглаженные
@@ -18,9 +18,9 @@ public partial class OpenGL3D : Window {
             else
                 // С текстурированием или без
                 if (!isShowTexture)
-                    DrawNotSceleton(SmoothNormal);
-                else
-                    DrawTexture(SmoothNormal);
+                DrawNotSceleton(SmoothNormal);
+            else
+                DrawTexture(SmoothNormal);
         }
         else {
             DrawSceleton();
@@ -50,6 +50,8 @@ public partial class OpenGL3D : Window {
         // Задание материала
         gl3D.Enable(OpenGL.GL_COLOR_MATERIAL);
 
+        gl3D.Enable(OpenGL.GL_NORMALIZE);
+
         // Если туман включен
         if (isFog) {
             gl3D.ClearColor(colorFog.R / 255f, colorFog.G / 255f, colorFog.B / 255f, colorFog.A / 255f);
@@ -63,54 +65,62 @@ public partial class OpenGL3D : Window {
             gl3D.Disable(OpenGL.GL_FOG);
         }
 
-        Trace.WriteLine(OpenGL.GL_LIGHT0);
-        Trace.WriteLine(OpenGL.GL_LIGHT1);
 
-        for (int i = 0; i < lights.Count; i++) {
-            
+        uint light_num = 16384;
+        for (int i = 0, id = 0; i < lights.Count; i++) {
+
+            // Показывать источник свет?
+            if (lights[i].IsShow)
+            {
+                uint cur_light = (uint)(light_num + id++); // Оперделяем номер источника света
+
+                // Максимум в OpenGL 8 исчтоников света
+                if (id == 8)
+                    return;
+
+                // Инициализируем 3 главные компоненты
+                gl3D.Light(cur_light, OpenGL.GL_AMBIENT, (float[])lights[i].Ambient);
+                gl3D.Light(cur_light, OpenGL.GL_DIFFUSE, (float[])lights[i].Diffuse);
+                gl3D.Light(cur_light, OpenGL.GL_SPECULAR, (float[])lights[i].Specular);
+
+                // Если исчтоник с затуханием
+                if (lights[i].IsAttenuation) {
+                    gl3D.Light(cur_light, OpenGL.GL_CONSTANT_ATTENUATION, lights[i].Constant);
+                    gl3D.Light(cur_light, OpenGL.GL_LINEAR_ATTENUATION, lights[i].Linear);
+                    gl3D.Light(cur_light, OpenGL.GL_QUADRATIC_ATTENUATION, lights[i].Quadratic);
+                }
+                else {
+                    gl3D.Light(cur_light, OpenGL.GL_CONSTANT_ATTENUATION, 1f);
+                    gl3D.Light(cur_light, OpenGL.GL_LINEAR_ATTENUATION, 0f);
+                    gl3D.Light(cur_light, OpenGL.GL_QUADRATIC_ATTENUATION, 0f);
+                }
+
+                switch (lights[i].Type)
+                {
+                    case TypeLight.DIRECTED:
+                        var directed = (float[])lights[i].Direction;
+                        directed[3] = 0f; // Делаем омегу равную нулю, чтобы свет был направленный, а иначе будет точечный
+                        gl3D.Light(cur_light, OpenGL.GL_POSITION, directed);
+                        break;
+
+                    case TypeLight.POINT or TypeLight.POINT_ATTENUATION:
+                        gl3D.Light(cur_light, OpenGL.GL_POSITION, (float[])lights[i].Position);
+                        break;
+
+                    case TypeLight.SPOT or TypeLight.SPOT_ATTENUATION:
+                        gl3D.Light(cur_light, OpenGL.GL_POSITION, (float[])lights[i].Position);
+                        gl3D.Light(cur_light, OpenGL.GL_SPOT_EXPONENT, lights[i].Exponent);
+                        gl3D.Light(cur_light, OpenGL.GL_SPOT_CUTOFF, lights[i].Cutoff);
+                        gl3D.Light(cur_light, OpenGL.GL_SPOT_DIRECTION, (float[])lights[i].Direction);
+
+                        break;
+                }
+
+                // Включаем источник
+                gl3D.Enable(cur_light);
+            }
         }
 
-        switch (ViewLight)
-        {
-            case 0:
-                // Точечный свет
-                //gl3D.Enable(OpenGL.GL_LIGHT0);
-                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, new[] { 200f, 200f, 300f, 1f });
-                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, new[] { 0f, 0f, 0f, 1f });
-                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, new[] { 1f, 1f, 1f, 1f });
-                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, new[] { 1f, 1f, 1f, 1f });
-
-                break;
-
-            case 1:
-                gl3D.Enable(OpenGL.GL_LIGHT1);
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_POSITION, new[] { 200f, 200f, 300f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_AMBIENT, new[] { 0f, 0f, 0f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_DIFFUSE, new[] { 1f, 1f, 1f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPECULAR, new[] { 1f, 1f, 1f, 1f });
-
-                // Затухание
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_CONSTANT_ATTENUATION, 0f);
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_LINEAR_ATTENUATION, 0.005f);
-                gl3D.Light(OpenGL.GL_LIGHT1, OpenGL.GL_QUADRATIC_ATTENUATION, 0f);
-                break;
-
-            case 2:
-                gl3D.Enable(OpenGL.GL_LIGHT2);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_POSITION, new[] { 5f, 5f, -10f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_AMBIENT, new[] { 0f, 0f, 0f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_DIFFUSE, new[] { 1f, 1f, 1f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPECULAR, new[] { 1f, 1f, 1f, 1f });
-
-                // Прожектор
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_EXPONENT, 0);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_CUTOFF, 45);
-                gl3D.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPOT_DIRECTION, new[] { -1f, 0f, 0f, 1f });
-                break;
-
-            default:
-                break;
-        }
     }
 
     //: Рисование сетки
@@ -127,6 +137,70 @@ public partial class OpenGL3D : Window {
 
             gl3D.End();
         }
+    }
+
+    //: Рисование кубика под ИС
+    private void DrawCube(Vector<float> center, Color color) {
+
+        // Сохраняем текущую матрицу
+        gl3D.PushMatrix();
+
+        // Перемещяем плоскость в координаты центра
+        gl3D.Translate(center[0], center[1], center[2]);
+
+        // Рисуем куб
+        gl3D.Color(color.R / 255f, color.G / 255f, color.B / 255f);
+
+        // FRONT
+        gl3D.Begin(BeginMode.Polygon);
+        gl3D.Vertex(0.5, -0.5, -0.5);
+        gl3D.Vertex(0.5, 0.5, -0.5);
+        gl3D.Vertex(-0.5, 0.5, -0.5);
+        gl3D.Vertex(-0.5, -0.5, -0.5);
+        gl3D.End();
+
+        // BACK
+        gl3D.Begin(BeginMode.Polygon);
+        gl3D.Vertex(0.5, -0.5, 0.5);
+        gl3D.Vertex(0.5, 0.5, 0.5);
+        gl3D.Vertex(-0.5, 0.5, 0.5);
+        gl3D.Vertex(-0.5, -0.5, 0.5);
+        gl3D.End();
+
+        // RIGHT
+        gl3D.Begin(BeginMode.Polygon);
+        gl3D.Vertex(0.5, -0.5, -0.5);
+        gl3D.Vertex(0.5, 0.5, -0.5);
+        gl3D.Vertex(0.5, 0.5, 0.5);
+        gl3D.Vertex(0.5, -0.5, 0.5);
+        gl3D.End();
+
+        // LEFT
+        gl3D.Begin(BeginMode.Polygon);
+        gl3D.Vertex(-0.5, -0.5, 0.5);
+        gl3D.Vertex(-0.5, 0.5, 0.5);
+        gl3D.Vertex(-0.5, 0.5, -0.5);
+        gl3D.Vertex(-0.5, -0.5, -0.5);
+        gl3D.End();
+
+        // TOP
+        gl3D.Begin(BeginMode.Polygon);
+        gl3D.Vertex(0.5, 0.5, 0.5);
+        gl3D.Vertex(0.5, 0.5, -0.5);
+        gl3D.Vertex(-0.5, 0.5, -0.5);
+        gl3D.Vertex(-0.5, 0.5, 0.5);
+        gl3D.End();
+
+        // BOTTOM
+        gl3D.Begin(BeginMode.Polygon);
+        gl3D.Vertex(0.5, -0.5, -0.5);
+        gl3D.Vertex(0.5, -0.5, 0.5);
+        gl3D.Vertex(-0.5, -0.5, 0.5);
+        gl3D.Vertex(-0.5, -0.5, -0.5);
+        gl3D.End();
+
+        // Восстанавливаем матрицу
+        gl3D.PopMatrix();
     }
 
     //: Рисование фигуры в не каркасном виде

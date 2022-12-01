@@ -31,7 +31,7 @@ public partial class OpenGL3D : Window {
         }
 
         // Если нажата клавиша Space (камера поднимается)
-        if (e.Key == Key.Space && e.IsRepeat) {
+        if (e.Key == Key.LeftShift && e.IsRepeat) {
             camera.CameraUpDown(0.08f);
             return;
         }

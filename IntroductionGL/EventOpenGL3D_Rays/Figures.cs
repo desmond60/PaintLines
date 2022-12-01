@@ -67,7 +67,7 @@ public partial class OpenGL3D_Rays : Window {
         gl3D.Scale(stage.Square.ScaleX, 1, stage.Square.ScaleZ);
 
         // Перемещяем плоскость в координаты центра
-        gl3D.Translate(stage.Square.Center[0], stage.Square.Center[1], stage.Square.Center[1]);
+        gl3D.Translate(stage.Square.Center[0], stage.Square.Center[1], stage.Square.Center[2]);
 
         // Рисуем плоскость
         gl3D.Begin(BeginMode.Polygon);

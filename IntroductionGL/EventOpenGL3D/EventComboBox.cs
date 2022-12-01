@@ -107,6 +107,8 @@ public partial class OpenGL3D : Window {
         SpecularY.Text = light.Specular[1].ToString();
         SpecularZ.Text = light.Specular[2].ToString();
 
+        ShowLight.IsChecked = light.IsShow;
+
         switch (name)
         {
             case "Directed":

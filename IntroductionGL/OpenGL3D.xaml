@@ -343,6 +343,7 @@
             <CheckBox x:Name="ShowLight"
                       Content="Показать?"
                       Visibility="Hidden"
+                      IsChecked="True"
                       Canvas.Left="261"
                       Canvas.Top="551"
                       Click="ShowLight_Click"/>
@@ -550,7 +551,7 @@
                         <TextBox x:Name="Constant"
                                  Padding="2"
                                  TextWrapping="NoWrap"
-                                 Text="0.0"
+                                 Text="0.1"
                                  TextAlignment="Center"
                                  Width="50"
                                  PreviewTextInput="LightPreviewTextInput"/>
@@ -562,7 +563,7 @@
                         <TextBox x:Name="Linear"
                                  Padding="2"
                                  TextWrapping="NoWrap"
-                                 Text="0.0"
+                                 Text="0.1"
                                  TextAlignment="Center"
                                  Width="50"
                                  PreviewTextInput="LightPreviewTextInput"/>
@@ -574,7 +575,7 @@
                         <TextBox x:Name="Quadratic"
                                  Padding="2"
                                  TextWrapping="NoWrap"
-                                 Text="0.0"
+                                 Text="0.1"
                                  TextAlignment="Center"
                                  Width="50"
                                  PreviewTextInput="LightPreviewTextInput"/>
@@ -700,7 +701,7 @@
                         <TextBox x:Name="ConstantSpot"
                                  Padding="2"
                                  TextWrapping="NoWrap"
-                                 Text="0.0"
+                                 Text="0.1"
                                  TextAlignment="Center"
                                  Width="50"
                                  PreviewTextInput="LightPreviewTextInput"/>
@@ -712,7 +713,7 @@
                         <TextBox x:Name="LinearSpot"
                                  Padding="2"
                                  TextWrapping="NoWrap"
-                                 Text="0.0"
+                                 Text="0.1"
                                  TextAlignment="Center"
                                  Width="50"
                                  PreviewTextInput="LightPreviewTextInput"/>
@@ -724,7 +725,7 @@
                         <TextBox x:Name="QuadraticSpot"
                                  Padding="2"
                                  TextWrapping="NoWrap"
-                                 Text="0.0"
+                                 Text="0.1"
                                  TextAlignment="Center"
                                  Width="50"
                                  PreviewTextInput="LightPreviewTextInput"/>

@@ -34,7 +34,6 @@ public partial class OpenGL3D : Window
 
     public bool isPerspective = true; // Если перспективный режим
 
-    public uint ViewLight = 0; // Вид освещения
     public int  _texture  = 1; // Хранит текстуру
     /* ----------------------- Переменные --------------------------------- */
 
@@ -75,11 +74,15 @@ public partial class OpenGL3D : Window
             gl3D.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_DIFFUSE, new float[] { 0f, 0f, 0f, 1f });
             gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0f, 0f, 0f, 0f });
             gl3D.Disable(OpenGL.GL_COLOR_MATERIAL);
+            gl3D.Disable(OpenGL.GL_FOG);
             gl3D.Disable(OpenGL.GL_LIGHT0);
             gl3D.Disable(OpenGL.GL_LIGHT1);
             gl3D.Disable(OpenGL.GL_LIGHT2);
             gl3D.Disable(OpenGL.GL_LIGHT3);
-            gl3D.Disable(OpenGL.GL_FOG);
+            gl3D.Disable(OpenGL.GL_LIGHT4);
+            gl3D.Disable(OpenGL.GL_LIGHT5);
+            gl3D.Disable(OpenGL.GL_LIGHT6);
+            gl3D.Disable(OpenGL.GL_LIGHT7);
         }
 
         // Рисование сетки
@@ -90,16 +93,13 @@ public partial class OpenGL3D : Window
         DrawFigure();
 
         // Рисование точки ориентира
-        gl3D.PointSize(50);
-        gl3D.Begin(BeginMode.Points);
-        gl3D.Color((byte)0, (byte)0, (byte)255);
-        gl3D.Vertex(camera.Orientation[0], camera.Orientation[1], camera.Orientation[2]);
-        gl3D.End();
+        DrawCube(camera.Orientation, new Color(0, 0, 255));
 
         // Перемещение в точку взгяда наблюдателя
         gl3D.Translate(camera.Orientation[0], 0, camera.Orientation[2]);
 
         // отключение источников света
+        gl3D.Disable(OpenGL.GL_FOG);
         gl3D.Disable(OpenGL.GL_LIGHT0);
         gl3D.Disable(OpenGL.GL_LIGHT1);
         gl3D.Disable(OpenGL.GL_LIGHT2);
@@ -272,13 +272,16 @@ public partial class OpenGL3D : Window
 
         // Вычисление нормалей к плоскостям
         Normals.Add(Vector<float>.GetVectorPolygon(Figure[0].section1, Figure[0].section2, Figure[0].section3));
-        for (int i = 0; i < Figure.Count - 1; i++)
-        {
+        for (int i = 0; i < Figure.Count - 1; i++) {
             Normals.Add(Vector<float>.GetVectorPolygon(Figure[i].section2, Figure[i].section1, Figure[i + 1].section1));
             Normals.Add(Vector<float>.GetVectorPolygon(Figure[i].section1, Figure[i].section3, Figure[i + 1].section3));
             Normals.Add(Vector<float>.GetVectorPolygon(Figure[i].section3, Figure[i].section2, Figure[i + 1].section2));
         }
         Normals.Add(Vector<float>.GetVectorPolygon(Figure[^1].section1, Figure[^1].section3, Figure[^1].section2));
+
+        // Инвертируем нормали
+        for (int i = 0; i < Normals.Count; i++)
+            Normals[i] = (Vector<float>)(-Normals[i]).Clone();
 
         // Вычисление сглаженных нормале
         var smoothNor = (Normals[0] + Normals[1] + Normals[2]) / 3.0f;

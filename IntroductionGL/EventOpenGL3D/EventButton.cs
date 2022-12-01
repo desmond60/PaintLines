@@ -89,6 +89,11 @@ public partial class OpenGL3D : Window {
         
         // Если это изменение ИС
         var light = lights.Find(n => n.Name.Equals(name));
+
+        // Если кнопка случайно нажата еще раз
+        if (light.Type == TypeLight.POINT_ATTENUATION || light.Type == TypeLight.SPOT_ATTENUATION)
+            return;
+
         lights.Remove(light!);
         ComboBoxAddLight.Items.Remove((ComboBoxItem)ComboBoxAddLight.SelectedItem);
         light.IsAttenuation = true;
@@ -119,6 +124,11 @@ public partial class OpenGL3D : Window {
 
         // Если это изменение ИС
         var light = lights.Find(n => n.Name.Equals(name));
+
+        // Если случайно нажата кнопка еще раз
+        if (light.Type == TypeLight.POINT_ATTENUATION || light.Type == TypeLight.SPOT_ATTENUATION)
+            return;
+
         lights.Remove(light!);
         ComboBoxAddLight.Items.Remove((ComboBoxItem)ComboBoxAddLight.SelectedItem);
         light.IsAttenuation = true;
@@ -194,6 +204,11 @@ public partial class OpenGL3D : Window {
 
         // Если изменяем ИС
         var light = lights.Find(n => n.Name.Equals(name));
+
+        // Если случайно кнопка нажата еще раз
+        if (light.Type == TypeLight.POINT || light.Type == TypeLight.SPOT)
+            return;
+
         lights.Remove(light!);
         ComboBoxAddLight.Items.Remove((ComboBoxItem)ComboBoxAddLight.SelectedItem);
         light.IsAttenuation = false;
@@ -246,16 +261,14 @@ public partial class OpenGL3D : Window {
         light.Specular[1] = Single.Parse(SpecularY.Text);
         light.Specular[2] = Single.Parse(SpecularZ.Text);
 
-        // Смотрим если добавленно затухение точечного 
-        if (light.Type == TypeLight.POINT_ATTENUATION)
-        {
+        // Смотрим если добавленно затухение точечного
+        if (light.Type == TypeLight.POINT_ATTENUATION) {
             light.IsAttenuation = true;
             light.Constant = Single.Parse(Constant.Text);
             light.Linear = Single.Parse(Linear.Text);
             light.Quadratic = Single.Parse(Quadratic.Text);
         }
-        else if (light.Type == TypeLight.SPOT_ATTENUATION)
-        {
+        else if (light.Type == TypeLight.SPOT_ATTENUATION) {
             light.IsAttenuation = true;
             light.Constant = Single.Parse(ConstantSpot.Text);
             light.Linear = Single.Parse(LinearSpot.Text);
@@ -293,19 +306,16 @@ public partial class OpenGL3D : Window {
     }
 
     //: TextBox только цифры и точка
-    private void LightPreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
+    private void LightPreviewTextInput(object sender, TextCompositionEventArgs e) {
         // Добавляем регулярное выражение
         var regex = new Regex("[^0-9.-]+");
         e.Handled = regex.IsMatch(e.Text);
     }
 
     //: Обработчик CheckBox "Показывать ИС?"
-    private void ShowLight_Click(object sender, RoutedEventArgs e)
-    {
+    private void ShowLight_Click(object sender, RoutedEventArgs e) {
         var light = lights.Find(n => n.Name.Equals(((ComboBoxItem)ComboBoxAddLight.SelectedValue).Content));
-        lights.Remove(light!);
-        EditLight(ref light!);
-        lights.Add(light);
+        int index = lights.IndexOf(light);
+        lights[index].IsShow = ShowLight.IsChecked.Value;
     }
 }
