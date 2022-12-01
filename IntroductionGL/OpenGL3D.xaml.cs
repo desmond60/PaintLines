@@ -21,6 +21,8 @@ public partial class OpenGL3D : Window
     public Camera camera   = new Camera();    // Камера
     public Texture texture = new Texture();   // Текстура
 
+    public Color colorFog = new Color(153, 149, 140, 255); // Цвет тумана
+
     public bool isGrid         = true;  // Вкл./Выкл. сетки
     public bool isDepth        = true;  // Вкл./Выкл. буфера глубины
     public bool isLight        = false; // Вкл./Выкл. света
@@ -69,6 +71,7 @@ public partial class OpenGL3D : Window
         if (isLight)
             InstallLight();
         else {
+            gl3D.ClearColor(0f, 0f, 0f, 1f);
             gl3D.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_DIFFUSE, new float[] { 0f, 0f, 0f, 1f });
             gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0f, 0f, 0f, 0f });
             gl3D.Disable(OpenGL.GL_COLOR_MATERIAL);
@@ -298,14 +301,6 @@ public partial class OpenGL3D : Window
         smoothNor = (Normals[^1] + Normals[^2] + Normals[^3]) / 3.0f;
         SmoothNormal.Add(smoothNor);
     }
-
-    //: TextBox только цифры и точка
-    private void LightPreviewTextInput(object sender, TextCompositionEventArgs e) {
-        // Добавляем регулярное выражение
-        var regex = new Regex("[^0-9.-]+");
-        e.Handled = regex.IsMatch(e.Text);
-    }
-
 }
 
 

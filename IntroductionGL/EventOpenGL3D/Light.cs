@@ -19,6 +19,7 @@ public class Light {
 
     //: Поля для затухания
     public bool IsAttenuation { get; set; } = false; // Есть ли затухание?
+    public bool IsShow        { get; set; } = true;  // Показывать ИС?
     public float Constant     { get; set; } // Константное затухание
     public float Linear       { get; set; } // Линейное затухание
     public float Quadratic    { get; set; } // Квадратичное затухание

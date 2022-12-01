@@ -323,7 +323,7 @@
                     Click="DeleteLight_Click"
                     Visibility="Hidden">
             </Button>
-            
+
             <!-- % ***** Глоабльный фон ***** % -->
             <StackPanel Canvas.Left="270"
                         Canvas.Top="505">
@@ -339,6 +339,14 @@
                          Width="50"
                          PreviewTextInput="LightPreviewTextInput"/>
             </StackPanel>
+
+            <CheckBox x:Name="ShowLight"
+                      Content="Показать?"
+                      Visibility="Hidden"
+                      Canvas.Left="261"
+                      Canvas.Top="551"
+                      Click="ShowLight_Click"/>
+
 
             <!--#region % ***** StackPanel "Добавить ИС" -->
             <StackPanel Canvas.Left="5"
@@ -574,7 +582,7 @@
                 </StackPanel>
             </StackPanel>
             <!--#endregion-->
-            
+
             <!--#region % ***** StackPanel "Прожектор" ***** %-->
             <StackPanel x:Name="SpotLight"
                         Canvas.Left="5"
@@ -724,7 +732,7 @@
                 </StackPanel>
             </StackPanel>
             <!--#endregion-->
-            
+
         </Canvas>
         <!--#endregion-->
     </Grid>

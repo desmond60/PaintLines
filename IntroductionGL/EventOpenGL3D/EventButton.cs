@@ -44,6 +44,7 @@ public partial class OpenGL3D : Window {
         // Изменяем визуализацию Canvas
         AddEditLight.Content = "Изменить";
         DeleteLight.Visibility = Visibility.Visible;
+        ShowLight.Visibility = Visibility.Visible;
 
         // Заполнение ComboBox
         ComboBoxAddLight.Items.Clear();
@@ -64,6 +65,7 @@ public partial class OpenGL3D : Window {
         // Изменяем визуализацию Canvas
         AddEditLight.Content = "Добавить";
         DeleteLight.Visibility = Visibility.Hidden;
+        ShowLight.Visibility = Visibility.Hidden;
 
         // Заполнение ComboBox
         ComboBoxAddLight.Items.Clear();
@@ -227,6 +229,9 @@ public partial class OpenGL3D : Window {
 
         // Определяем имя ИС
         light.Name = GetNameLight(light.Type, lights);
+
+        // Определяем показывать ИС
+        light.IsShow = ShowLight.IsChecked.Value;
         
         // Сначала присвоем все три составляющии
         light.Ambient[0] = Single.Parse(AmbientX.Text);
@@ -285,5 +290,22 @@ public partial class OpenGL3D : Window {
                 light.Exponent = Single.Parse(Exponent.Text);
                 break;
         }
+    }
+
+    //: TextBox только цифры и точка
+    private void LightPreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        // Добавляем регулярное выражение
+        var regex = new Regex("[^0-9.-]+");
+        e.Handled = regex.IsMatch(e.Text);
+    }
+
+    //: Обработчик CheckBox "Показывать ИС?"
+    private void ShowLight_Click(object sender, RoutedEventArgs e)
+    {
+        var light = lights.Find(n => n.Name.Equals(((ComboBoxItem)ComboBoxAddLight.SelectedValue).Content));
+        lights.Remove(light!);
+        EditLight(ref light!);
+        lights.Add(light);
     }
 }

@@ -42,28 +42,32 @@ public partial class OpenGL3D : Window {
 
         // Компоненты глобального освещения
         gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_TWO_SIDE, OpenGL.GL_TRUE);
-        var coeff_amb = Single.Parse(Background.Text);
-        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { coeff_amb, coeff_amb, coeff_amb, 0f });
+        var coeff_amb = Background.Text == String.Empty ? 0 : Single.Parse(Background.Text);
+        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { coeff_amb, coeff_amb, coeff_amb, 1f });
         gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_LOCAL_VIEWER, OpenGL.GL_FALSE);
         gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_COLOR_CONTROL_EXT, OpenGL.GL_SINGLE_COLOR_EXT);
-
-        //gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0.5f, 0.5f, 0.5f, 1f });
 
         // Задание материала
         gl3D.Enable(OpenGL.GL_COLOR_MATERIAL);
 
         // Если туман включен
-        if (isFog)
-        {
-            gl3D.ClearColor(153 / 255f, 149 / 255f, 140 / 255f, 1f);
+        if (isFog) {
+            gl3D.ClearColor(colorFog.R / 255f, colorFog.G / 255f, colorFog.B / 255f, colorFog.A / 255f);
             gl3D.Enable(OpenGL.GL_FOG);
             gl3D.Fog(OpenGL.GL_FOG_MODE, OpenGL.GL_EXP2);
-            gl3D.Fog(OpenGL.GL_FOG_COLOR, new[] { 153 / 255f, 149 / 255f, 140 / 255f, 1f });
+            gl3D.Fog(OpenGL.GL_FOG_COLOR, new float[] { colorFog.R / 255f, colorFog.G / 255f, colorFog.B / 255f, colorFog.A / 255f });
             gl3D.Fog(OpenGL.GL_FOG_DENSITY, 0.1f);
         }
         else {
             gl3D.ClearColor(0f, 0f, 0f, 1f);
             gl3D.Disable(OpenGL.GL_FOG);
+        }
+
+        Trace.WriteLine(OpenGL.GL_LIGHT0);
+        Trace.WriteLine(OpenGL.GL_LIGHT1);
+
+        for (int i = 0; i < lights.Count; i++) {
+            
         }
 
         switch (ViewLight)
