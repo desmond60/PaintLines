@@ -10,6 +10,7 @@ global using System.Windows.Input;
 global using System.IO;
 global using System.Diagnostics;
 global using System.Text;
+global using System.Text.RegularExpressions;
 
 // System-static
 global using static System.Math;

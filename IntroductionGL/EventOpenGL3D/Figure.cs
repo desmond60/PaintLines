@@ -40,32 +40,41 @@ public partial class OpenGL3D : Window {
     //: Установка света
     private void InstallLight() {
 
-        // Включение режима двустороннего освещения
+        // Компоненты глобального освещения
         gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_TWO_SIDE, OpenGL.GL_TRUE);
+        var coeff_amb = Single.Parse(Background.Text);
+        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { coeff_amb, coeff_amb, coeff_amb, 0f });
+        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_LOCAL_VIEWER, OpenGL.GL_FALSE);
+        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_COLOR_CONTROL_EXT, OpenGL.GL_SINGLE_COLOR_EXT);
 
-        // Значения глобальной фоновой составляющей
-        gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0.5f, 0.5f, 0.5f, 1f });
+        //gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0.5f, 0.5f, 0.5f, 1f });
 
         // Задание материала
         gl3D.Enable(OpenGL.GL_COLOR_MATERIAL);
 
         // Если туман включен
-        if (isFog) {
+        if (isFog)
+        {
+            gl3D.ClearColor(153 / 255f, 149 / 255f, 140 / 255f, 1f);
             gl3D.Enable(OpenGL.GL_FOG);
             gl3D.Fog(OpenGL.GL_FOG_MODE, OpenGL.GL_EXP2);
-            gl3D.Fog(OpenGL.GL_FOG_COLOR, new[] { 1f, 1f, 0.5f, 1f });
-            gl3D.Fog(OpenGL.GL_FOG_DENSITY, 0.05f);
+            gl3D.Fog(OpenGL.GL_FOG_COLOR, new[] { 153 / 255f, 149 / 255f, 140 / 255f, 1f });
+            gl3D.Fog(OpenGL.GL_FOG_DENSITY, 0.1f);
+        }
+        else {
+            gl3D.ClearColor(0f, 0f, 0f, 1f);
+            gl3D.Disable(OpenGL.GL_FOG);
         }
 
         switch (ViewLight)
         {
             case 0:
                 // Точечный свет
-                gl3D.Enable(OpenGL.GL_LIGHT0);
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, new[] { 200f, 200f, 300f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, new[] { 0f, 0f, 0f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, new[] { 1f, 1f, 1f, 1f });
-                gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, new[] { 1f, 1f, 1f, 1f });
+                //gl3D.Enable(OpenGL.GL_LIGHT0);
+                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_POSITION, new[] { 200f, 200f, 300f, 1f });
+                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_AMBIENT, new[] { 0f, 0f, 0f, 1f });
+                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_DIFFUSE, new[] { 1f, 1f, 1f, 1f });
+                //gl3D.Light(OpenGL.GL_LIGHT0, OpenGL.GL_SPECULAR, new[] { 1f, 1f, 1f, 1f });
 
                 break;
 

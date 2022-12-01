@@ -7,21 +7,23 @@ public partial class OpenGL3D : Window
     {
         InitializeComponent();
         Load(); // Чтение и подготовка 3D-фигуры
+        CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
     }
 
     /* ----------------------- Переменные --------------------------------- */
     OpenGL gl3D; // Переменная OpenGl
 
-    public List<Triangle> Figure            = new List<Triangle>();        // Треугольники
-    public List<Vector<float>> Normals      = new List<Vector<float>>();   // Нормали
-    public List<Vector<float>> SmoothNormal = new List<Vector<float>>();   // Сглаженные нормали
+    public List<Triangle> Figure            = new List<Triangle>();            // Треугольники
+    public List<Vector<float>> Normals      = new List<Vector<float>>();       // Нормали
+    public List<Vector<float>> SmoothNormal = new List<Vector<float>>();       // Сглаженные нормали
+    public List<EventOpenGL3D.Light> lights = new List<EventOpenGL3D.Light>(); // Источники света
 
     public Camera camera   = new Camera();    // Камера
     public Texture texture = new Texture();   // Текстура
 
-    public bool isLight        = true;  // Вкл./Выкл. света
     public bool isGrid         = true;  // Вкл./Выкл. сетки
     public bool isDepth        = true;  // Вкл./Выкл. буфера глубины
+    public bool isLight        = false; // Вкл./Выкл. света
     public bool isSceleton     = false; // Вкл./Выкл. каркасного режима
     public bool isDrawNormal   = false; // Вкл./Выкл. демонстрации нормалей
     public bool isShowTexture  = false; // Вкл./Выкл. текстурирование фигуры
@@ -37,6 +39,7 @@ public partial class OpenGL3D : Window
     //: Начальное состояние OpenGl
     private void openGLControl3D_OpenGLInitialized(object sender, OpenGLRoutedEventArgs args) {
         gl3D = args.OpenGL;
+        gl3D.ClearColor(0f, 0f, 0f, 1f);
     }
 
     //: Функция отрисовки OpenGL
@@ -51,11 +54,8 @@ public partial class OpenGL3D : Window
         else
             gl3D.Disable(OpenGL.GL_DEPTH_TEST);
 
-        // Включение/Выключение света
-        if (isLight)
-            gl3D.Enable(OpenGL.GL_LIGHTING);
-        else
-            gl3D.Disable(OpenGL.GL_LIGHTING);
+        // Включаем освещение
+        gl3D.Enable(OpenGL.GL_LIGHTING);
 
         // Обнуляем матрицу (на всякий случай)
         gl3D.LoadIdentity();
@@ -68,6 +68,16 @@ public partial class OpenGL3D : Window
         // Установка освещения
         if (isLight)
             InstallLight();
+        else {
+            gl3D.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_DIFFUSE, new float[] { 0f, 0f, 0f, 1f });
+            gl3D.LightModel(OpenGL.GL_LIGHT_MODEL_AMBIENT, new[] { 0f, 0f, 0f, 0f });
+            gl3D.Disable(OpenGL.GL_COLOR_MATERIAL);
+            gl3D.Disable(OpenGL.GL_LIGHT0);
+            gl3D.Disable(OpenGL.GL_LIGHT1);
+            gl3D.Disable(OpenGL.GL_LIGHT2);
+            gl3D.Disable(OpenGL.GL_LIGHT3);
+            gl3D.Disable(OpenGL.GL_FOG);
+        }
 
         // Рисование сетки
         if (isGrid)
@@ -86,12 +96,15 @@ public partial class OpenGL3D : Window
         // Перемещение в точку взгяда наблюдателя
         gl3D.Translate(camera.Orientation[0], 0, camera.Orientation[2]);
 
-        // Выключение источников света
+        // отключение источников света
         gl3D.Disable(OpenGL.GL_LIGHT0);
         gl3D.Disable(OpenGL.GL_LIGHT1);
         gl3D.Disable(OpenGL.GL_LIGHT2);
         gl3D.Disable(OpenGL.GL_LIGHT3);
-        gl3D.Disable(OpenGL.GL_FOG);
+        gl3D.Disable(OpenGL.GL_LIGHT4);
+        gl3D.Disable(OpenGL.GL_LIGHT5);
+        gl3D.Disable(OpenGL.GL_LIGHT6);
+        gl3D.Disable(OpenGL.GL_LIGHT7);
 
         // (Не обазательно) !Но гарантирует, что программа ждет в этой точке пока OpenGL рисует
         gl3D.Finish();
@@ -184,7 +197,7 @@ public partial class OpenGL3D : Window
                     predLenght = curLenght;
             }
 
-            // Расстояние от начала отрезка жо точки тиражирования и норма направления
+            // Расстояние от начала отрезка до точки тиражирования и норма направления
             float localPath = tiradeLenght - predLenght;
             Vector<float> orientation = Trajectory[index + 1] - Trajectory[index];
             float localNorm = Vector<float>.Norm(orientation);
@@ -195,9 +208,6 @@ public partial class OpenGL3D : Window
                 Trajectory[index][0] + orientation[0] * ratio,
                 Trajectory[index][1] + orientation[1] * ratio,
                 Trajectory[index][2] + orientation[2] * ratio });
-
-            // Ось
-            Vector<float> axe = Vector<float>.GetVector(orientation, patternTriangle);
 
             // Угол (можно так вичислять угол, но как-то он фигово вычисляется)
             /*float scalar = Vector<float>.Scalar(orientation, patternTriangle);
@@ -220,6 +230,9 @@ public partial class OpenGL3D : Window
             section1 = matrixScale * section1;
             section2 = matrixScale * section2;
             section3 = matrixScale * section3;
+
+            // Ось (отвечающая за координату по которой крутить)
+            Vector<float> axe = Vector<float>.GetVector(orientation, patternTriangle);
 
             // Повернуть треугольник, если angle != 0
             if (Angles[i] != 0)
@@ -284,6 +297,13 @@ public partial class OpenGL3D : Window
         SmoothNormal.Add(smoothNor);
         smoothNor = (Normals[^1] + Normals[^2] + Normals[^3]) / 3.0f;
         SmoothNormal.Add(smoothNor);
+    }
+
+    //: TextBox только цифры и точка
+    private void LightPreviewTextInput(object sender, TextCompositionEventArgs e) {
+        // Добавляем регулярное выражение
+        var regex = new Regex("[^0-9.-]+");
+        e.Handled = regex.IsMatch(e.Text);
     }
 
 }

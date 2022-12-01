@@ -9,7 +9,7 @@
         
         Title="3D"
         Height="720" Width="1280"
-        MinHeight="720" MinWidth="1280"
+        MinHeight="800" MinWidth="1280"
     
         FontFamily="Times New Roman" 
         FontWeight="Bold" FontSize="14"
@@ -80,7 +80,7 @@
                            HorizontalAlignment="Left"
                            Text="Свет"/>
                 <toggle:ToggleSwitch x:Name="ToggleLight"
-                                     IsChecked="True" 
+                                     IsChecked="False" 
                                      Cursor="Hand"
                                      HorizontalAlignment="Right"
                                      CheckedText="Вкл." 
@@ -165,7 +165,7 @@
                                      Click="ToggleShowTexture_Click" 
                                      SwitchContentPlacement="Right"
                                      FocusManager.FocusedElement="{Binding ElementName=openGLControl3D}"/>
-            </DockPanel> 
+            </DockPanel>
 
             <!-- % ***** Toggle (Демонстрация нормалей) ***** % -->
             <DockPanel Canvas.Top="255"
@@ -205,6 +205,11 @@
                                      FocusManager.FocusedElement="{Binding ElementName=openGLControl3D}"/>
             </DockPanel>
 
+            <!--Separator-->
+            <StackPanel Orientation="Horizontal" Canvas.Top="310">
+                <Separator Height="15" Width="350"/>
+            </StackPanel>
+
             <!-- % ***** ComboBox (Вид проекции) ***** % -->
             <DockPanel Canvas.Top="325"
                        Width="330">
@@ -223,27 +228,8 @@
                 </ComboBox>
             </DockPanel>
 
-            <!-- % ***** ComboBox (Вид света) ***** % -->
-            <DockPanel Canvas.Top="360"
-                       Width="330">
-                <TextBlock 
-                           FontSize="16"
-                           Margin="20,2,0,2"
-                           HorizontalAlignment="Left"
-                           Text="Вид света"/>
-                <ComboBox x:Name="ComboBoxViewLight"
-                          Cursor="Hand"
-                          HorizontalAlignment="Right"
-                          SelectionChanged="ComboBoxViewLight_SelectionChanged"
-                          SelectedIndex="0">
-                    <ComboBoxItem Content="Точечный"/>
-                    <ComboBoxItem Content="Затухание"/>
-                    <ComboBoxItem Content="Прожектор"/>
-                </ComboBox>
-            </DockPanel>
-
             <!-- % ***** ComboBox (Вид текстуры) ***** % -->
-            <DockPanel Canvas.Top="395"
+            <DockPanel Canvas.Top="360"
                        Width="330">
                 <TextBlock 
                            FontSize="16"
@@ -271,20 +257,475 @@
                 </ComboBox>
             </DockPanel>
 
+            <!--Separator-->
+            <StackPanel Orientation="Horizontal" Canvas.Top="380">
+                <Separator Height="15" Width="350"/>
+            </StackPanel>
+
             <!-- % ***** Button Switch Window's ***** % -->
             <Button x:Name="SwitchWindow"
                 Width="20"
                 Height="20" 
-                Canvas.Left="314"
-                Canvas.Top="653"
+                Canvas.Left="325"
+                Canvas.Top="740"
                 Click="SwitchWindow_Click">
                 <StackPanel >
                     <Image Source="/Image/SwitchWindow.png"/>
                 </StackPanel>
             </Button>
 
+
+            <!-- % ***** Надпись ***** % -->
+            <TextBlock Canvas.Left="119" 
+                       TextWrapping="Wrap" 
+                       Text="Освещение"
+                       FontSize="18"
+                       Canvas.Top="399"/>
+
+            <!-- % ***** Кнопка "Изменение ИС" ***** % -->
+            <Button x:Name="EditingLight"
+                    Width="155"
+                    Height="20"
+                    Content="Изменение"
+                    Canvas.Left="10"
+                    Canvas.Top="425"
+                    IsEnabled="False"
+                    Click="EditLight_Click">
+            </Button>
+
+            <!-- % ***** Кнопка "Добавление ИС" ***** % -->
+            <Button x:Name="AdditingLight"
+                    Width="165"
+                    Height="20"
+                    Content="Добавление"
+                    Canvas.Left="175"
+                    Canvas.Top="425"
+                    Click="AddLight_Click">
+            </Button>
+
+            <!-- % ***** Кнопка "Добавить и Изменить ИС" ***** % -->
+            <Button x:Name="AddEditLight"
+                    Width="80"
+                    Height="20"
+                    Content="Добавить"
+                    Canvas.Left="265"
+                    Canvas.Top="476"
+                    Click="AddEditLight_Click">
+            </Button>
+
+            <!-- % ***** Удалить ИС ***** % -->
+            <Button x:Name="DeleteLight"
+                    Width="80"
+                    Height="20"
+                    Content="Удалить"
+                    Canvas.Left="10"
+                    Canvas.Top="476"
+                    Click="DeleteLight_Click"
+                    Visibility="Hidden">
+            </Button>
+            
+            <!-- % ***** Глоабльный фон ***** % -->
+            <StackPanel Canvas.Left="270"
+                        Canvas.Top="505">
+                <TextBlock FontSize="16"
+                           Margin="15,2,15,2"
+                           Text="Фон:"/>
+                <TextBox x:Name="Background"
+                         Margin="10,0,10,0"
+                         Padding="2"
+                         TextWrapping="NoWrap"
+                         Text="0.0"
+                         TextAlignment="Center"
+                         Width="50"
+                         PreviewTextInput="LightPreviewTextInput"/>
+            </StackPanel>
+
+            <!--#region % ***** StackPanel "Добавить ИС" -->
+            <StackPanel Canvas.Left="5"
+                        Canvas.Top="450">
+                <TextBlock FontSize="16"
+                           Margin="108,2,0,2"
+                           Text="Источник света"/>
+                <ComboBox x:Name="ComboBoxAddLight"
+                          Cursor="Hand"
+                          Margin="105,2,0,2"
+                          SelectionChanged="ComboBoxAddLight_SelectionChanged"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="Направленный"/>
+                    <ComboBoxItem Content="Точечный"/>
+                    <ComboBoxItem Content="Прожектор"/>
+                </ComboBox>
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,15,2"
+                               Text="ambient:"/>
+                    <TextBox x:Name="AmbientX"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="AmbientY"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="AmbientZ"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,24,2"
+                               Text="diffuse:"/>
+                    <TextBox x:Name="DiffuseX"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="DiffuseY"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="DiffuseZ"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,13,2"
+                               Text="specular:"/>
+                    <TextBox x:Name="SpecularX"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="SpecularY"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="SpecularZ"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region % ***** StackPanel "Направленный ИС" -->
+            <StackPanel x:Name="DirectedLight"
+                        Canvas.Left="5"
+                        Canvas.Top="570"
+                        Visibility="Visible">
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,13,2"
+                               Text="orientation:"/>
+                    <TextBox x:Name="OrientationX"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="OrientationY"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="OrientationZ"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!-- #region % ***** StackPanel "Точечный ИС" ***** % -->
+            <StackPanel x:Name="PointLight"
+                        Canvas.Left="5"
+                        Canvas.Top="570"
+                        Visibility="Hidden">
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,16,2"
+                               Text="position:"/>
+                    <TextBox x:Name="PositionX"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="PositionY"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="PositionZ"
+                             Padding="2"
+                             Margin="-88,0,0,0"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+                <DockPanel>
+                    <Button x:Name="AddAttenuationPointLight"
+                        Width="165"
+                        Height="20"
+                        Margin="5,2,0,2"
+                        Content="Добавить затухание"
+                        Canvas.Left="10"
+                        Canvas.Top="425"
+                        Click="AddAttenuationPointLight_Click">
+                    </Button>
+                    <Button x:Name="DeleteAttenuationPointLight"
+                        Width="165"
+                        Height="20"
+                        Margin="5,2,0,2"
+                        Content="Убрать затухание"
+                        Canvas.Left="10"
+                        Canvas.Top="425"
+                        Visibility="Hidden"
+                        Click="DeleteAttenuationLight_Click">
+                    </Button>
+                </DockPanel>
+                <StackPanel x:Name="Attention"
+                            Visibility="Hidden">
+                    <DockPanel>
+                        <TextBlock FontSize="16"
+                                   Margin="5,2,8,2"
+                                   Text="constant:"/>
+                        <TextBox x:Name="Constant"
+                                 Padding="2"
+                                 TextWrapping="NoWrap"
+                                 Text="0.0"
+                                 TextAlignment="Center"
+                                 Width="50"
+                                 PreviewTextInput="LightPreviewTextInput"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock FontSize="16"
+                                   Margin="5,2,26,2"
+                                   Text="linear:"/>
+                        <TextBox x:Name="Linear"
+                                 Padding="2"
+                                 TextWrapping="NoWrap"
+                                 Text="0.0"
+                                 TextAlignment="Center"
+                                 Width="50"
+                                 PreviewTextInput="LightPreviewTextInput"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock FontSize="16"
+                                   Margin="5,2,-2,2"
+                                   Text="quadratic:"/>
+                        <TextBox x:Name="Quadratic"
+                                 Padding="2"
+                                 TextWrapping="NoWrap"
+                                 Text="0.0"
+                                 TextAlignment="Center"
+                                 Width="50"
+                                 PreviewTextInput="LightPreviewTextInput"/>
+                    </DockPanel>
+                </StackPanel>
+            </StackPanel>
+            <!--#endregion-->
+            
+            <!--#region % ***** StackPanel "Прожектор" ***** %-->
+            <StackPanel x:Name="SpotLight"
+                        Canvas.Left="5"
+                        Canvas.Top="570"
+                        Visibility="Hidden">
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,16,2"
+                               Text="position:"/>
+                    <TextBox x:Name="PositionSpotX"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="PositionSpotY"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="PositionSpotZ"
+                             Padding="2"
+                             Margin="-78,0,10,0"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,10,2"
+                               Text="direction:"/>
+                    <TextBox x:Name="DirectionX"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="DirectionY"
+                             Margin="0,0,10,0"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                    <TextBox x:Name="DirectionZ"
+                             Padding="2"
+                             Margin="-80,0,10,0"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,62,2"
+                               Text="cutoff:"/>
+                    <TextBox x:Name="Cutoff"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock FontSize="16"
+                               Margin="5,2,39,2"
+                               Text="exponent:"/>
+                    <TextBox x:Name="Exponent"
+                             Padding="2"
+                             TextWrapping="NoWrap"
+                             Text="0.0"
+                             TextAlignment="Center"
+                             Width="50"
+                             PreviewTextInput="LightPreviewTextInput"/>
+                </DockPanel>
+                <DockPanel>
+                    <Button x:Name="AddAttenuationSpotLight"
+                        Width="165"
+                        Height="20"
+                        Margin="5,2,0,2"
+                        Content="Добавить затухание"
+                        Canvas.Left="10"
+                        Canvas.Top="425"
+                        Click="AddAttenuationSpotLight_Click">
+                    </Button>
+                    <Button x:Name="DeleteAttenuationSpotLight"
+                        Width="165"
+                        Height="20"
+                        Margin="5,2,0,2"
+                        Content="Убрать затухание"
+                        Canvas.Left="10"
+                        Canvas.Top="425"
+                        Visibility="Hidden"
+                        Click="DeleteAttenuationLight_Click">
+                    </Button>
+                </DockPanel>
+                <StackPanel x:Name="AttentionSpot"
+                            Visibility="Hidden">
+                    <DockPanel>
+                        <TextBlock FontSize="16"
+                                   Margin="5,2,8,2"
+                                   Text="constant:"/>
+                        <TextBox x:Name="ConstantSpot"
+                                 Padding="2"
+                                 TextWrapping="NoWrap"
+                                 Text="0.0"
+                                 TextAlignment="Center"
+                                 Width="50"
+                                 PreviewTextInput="LightPreviewTextInput"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock FontSize="16"
+                                   Margin="5,2,26,2"
+                                   Text="linear:"/>
+                        <TextBox x:Name="LinearSpot"
+                                 Padding="2"
+                                 TextWrapping="NoWrap"
+                                 Text="0.0"
+                                 TextAlignment="Center"
+                                 Width="50"
+                                 PreviewTextInput="LightPreviewTextInput"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock FontSize="16"
+                                   Margin="5,2,0,2"
+                                   Text="quadratic:"/>
+                        <TextBox x:Name="QuadraticSpot"
+                                 Padding="2"
+                                 TextWrapping="NoWrap"
+                                 Text="0.0"
+                                 TextAlignment="Center"
+                                 Width="50"
+                                 PreviewTextInput="LightPreviewTextInput"/>
+                    </DockPanel>
+                </StackPanel>
+            </StackPanel>
+            <!--#endregion-->
+            
         </Canvas>
         <!--#endregion-->
-
     </Grid>
 </Window>

@@ -1,4 +1,6 @@
-﻿namespace IntroductionGL;
+﻿using System.Linq;
+
+namespace IntroductionGL;
 
 //: Структура Луча
 public struct Ray
@@ -795,6 +797,15 @@ public static class Helper
         DASHEDPOINT
     }
 
+    //: Перечисление "Тип источника света"
+    public enum TypeLight {
+        DIRECTED,          // Направленный
+        POINT,             // Точечный
+        POINT_ATTENUATION, // Точечный с затуханием
+        SPOT,              // Прожеткор
+        SPOT_ATTENUATION   // Прожеткор с затуханием
+    }
+
     //: Getter for enum TypeLine
     public static string GetTypeLine(TypeLine type) {
         return type switch
@@ -805,6 +816,33 @@ public static class Helper
             TypeLine.DASHEDPOINT => "Штрихпунктирный",
             _ => "Обычный"
         };
+    }
+
+    //: Метод определяет имя источника света
+    public static string GetNameLight(TypeLight type, List<EventOpenGL3D.Light> list) {
+        
+        // Ищу все ИС с хожим типом
+        List<EventOpenGL3D.Light> list_name = list.Where(n => n.Type.Equals(type)).ToList();
+
+        if (list_name.Count == 0)
+            return type switch
+            {
+                TypeLight.DIRECTED => "Directed_1",
+                TypeLight.POINT => "Point_1",
+                TypeLight.POINT_ATTENUATION => "PointAtt_1",
+                TypeLight.SPOT => "Spot_1",
+                TypeLight.SPOT_ATTENUATION => "SpotAtt_1"
+            };
+        else {
+            return type switch
+            {
+                TypeLight.DIRECTED => $"Directed_{list_name.Count + 1}",
+                TypeLight.POINT => $"Point_{list_name.Count + 1}",
+                TypeLight.POINT_ATTENUATION => $"PointAtt_{list_name.Count + 1}",
+                TypeLight.SPOT => $"Spot_{list_name.Count + 1}",
+                TypeLight.SPOT_ATTENUATION => $"SpotAtt_{list_name.Count + 1}"
+            };
+        }
     }
 
     //: Создание точки примитиви в зависимости от размеров экрана
