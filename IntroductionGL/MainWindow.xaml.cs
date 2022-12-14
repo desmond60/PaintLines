@@ -38,4 +38,12 @@ public partial class MainWindow : Window
         window_openGL3D_rays.Show();
         this.Close();
     }
+
+    //: Открытие окна с Spline 
+    private void ButtonSpline_Click(object sender, RoutedEventArgs e)
+    {
+        OpenGLSpline window_openGLSpline = new OpenGLSpline();
+        window_openGLSpline.Show();
+        this.Close();
+    }
 }

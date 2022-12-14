@@ -8,9 +8,9 @@
         WindowStartupLocation="CenterScreen"
                 
         Title="Graphics Labs"
-        Height="150" Width="480"
-        MinHeight="150" MinWidth="480"
-        MaxHeight="150" MaxWidth="480"
+        Height="150" Width="560"
+        MinHeight="150" MinWidth="560"
+        MaxHeight="150" MaxWidth="560"
 
         FontFamily="Times New Roman" 
         FontWeight="Bold" FontSize="14">
@@ -18,7 +18,7 @@
     <Grid>
 
         <!--#region  % ***** Кнопочки ***** % -->
-        <UniformGrid Rows="1" Columns="4">
+        <UniformGrid Rows="1" Columns="5">
             <Button x:Name="ButtonLab1"
                     Click="ButtonLab1_Click"
                     Canvas.Left="2"
@@ -50,6 +50,14 @@
                     Canvas.Bottom="2"
                     Canvas.Top="2"
                     Content="3D (Rays)"
+                    Margin="10,10,10,10"/>
+            <Button x:Name="ButtonSpline"
+                    Click="ButtonSpline_Click"
+                    Canvas.Left="2"
+                    Canvas.Right="2"
+                    Canvas.Bottom="2"
+                    Canvas.Top="2"
+                    Content="Spline"
                     Margin="10,10,10,10"/>
         </UniformGrid>
         <!--#endregion-->

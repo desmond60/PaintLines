@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace IntroductionGL;
+﻿namespace IntroductionGL;
 
 //: Структура Луча
 public struct Ray
@@ -116,6 +114,9 @@ public struct Point {
     //: Цвет вершины
     public Color color { get; set; } = new Color(100, 100, 100, 255);
 
+    //: Вес точки (для сплайна используется)
+    public float w { get; set; } = 1.0f;
+
     //: Конструктор
     public Point(float x, float y) { 
         this.X = x;
@@ -227,7 +228,7 @@ public struct Color {
         this.A = 255;
     }
 
-    //: Деконструктор
+    //: Деконструкторы
     public void Deconstruct(out byte r,
                             out byte g,
                             out byte b,
@@ -236,6 +237,15 @@ public struct Color {
         g = G;
         b = B;
         a = A;
+    }
+
+    public void Deconstruct(out byte r,
+                            out byte g,
+                            out byte b)
+    {
+        r = R;
+        g = G;
+        b = B;
     }
 
     //: Строковое представление цвета

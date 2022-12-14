@@ -2,6 +2,7 @@
 
 //: Обработчики клавиш
 public partial class OpenGL3D_Rays : Window {
+    
     //: Обработка нажатий клавиш
     private void Grid_KeyDown(object sender, KeyEventArgs e)
     {
