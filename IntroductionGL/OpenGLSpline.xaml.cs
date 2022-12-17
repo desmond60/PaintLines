@@ -19,9 +19,9 @@ public partial class OpenGLSpline : Window
 
     int OrderBasicFunction = 3; // Порядок базисных функций 
 
-    float Scale = 1f;               // Коэффициент масштабирования
+    float Scale             = 1f;   // Коэффициент масштабирования
     float ActiveWeightPoint = 1.0f; // Текущее значение веса активной точки
-    int   ActivePointIndex = 0;     // Индекс активной точки
+    int   ActivePointIndex  = 0;    // Индекс активной точки
     
     
     bool IsActivePoint   = false; // Стоим ли мы на активной точке

@@ -74,8 +74,8 @@
             <!-- % ***** Количество требуемых точек ***** % -->
             <DockPanel Canvas.Top="90">
                 <TextBlock FontSize="16"
-                           Margin="5,2,65,2"
-                           Text="Количество требуемых точек:"/>
+                           Margin="5,2,162,2"
+                           Text="Порядок базиса:"/>
                 <TextBox x:Name="CountControlPoint"
                              Padding="2"
                              TextWrapping="NoWrap"

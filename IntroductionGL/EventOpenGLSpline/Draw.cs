@@ -276,7 +276,7 @@ public partial class OpenGLSpline : Window {
         int countPoint = ControlPoint.Count;
 
         // Если не хватает, сплайн не рисуем
-        if (ControlPoint.Count < countNeedPoint + 1) return; // Не хватает точек
+        if (ControlPoint.Count <= countNeedPoint) return; // Не хватает точек
 
         // Если точек хватает, заполняем парметры
         List<int> param = new List<int>();
@@ -310,7 +310,7 @@ public partial class OpenGLSpline : Window {
                 float coeff = BasicFunc(u, k, param);
                 w += ControlPoint[k].w * coeff;
                 x += ControlPoint[k].w * ControlPoint[k].X * coeff;
-                y += ControlPoint[k].w * ControlPoint[k].Y * coeff;    
+                y += ControlPoint[k].w * ControlPoint[k].Y * coeff;
             }
             Spline.Add(ConvertCoordinateToScreen(new Point(x / w, y / w)));
         }
@@ -330,35 +330,35 @@ public partial class OpenGLSpline : Window {
         if (U < param[I] || U >= param[I + countNeedPoint + 1])
             return 0;
 
-        float[] N = new float[30];
+        float[] B = new float[30];
         for (int p = 0; p <= countNeedPoint; p++)
             if (U >= param[I + p] && U < param[I + p + 1])
-                N[p] = 1;
-            else N[p] = 0;
+                B[p] = 1;
+            else B[p] = 0;
 
         for (int s = 1; s <= countNeedPoint; s++) {
 
             float coeff;
-            if (N[0] == 0)
+            if (B[0] == 0)
                 coeff = 0;
             else
-                coeff = ((U - param[I]) * N[0]) / (param[I + s] - param[I]);
+                coeff = ((U - param[I]) * B[0]) / (param[I + s] - param[I]);
 
             for (int j = 0; j < countNeedPoint - s + 1; j++) {
 
-                float Uleft = param[I + j + 1];
-                float URight = param[I + j + s + 1];
-                if (N[j + 1] == 0) {
-                    N[j] = coeff;
+                if (B[j + 1] == 0) {
+                    B[j] = coeff;
                     coeff = 0;
                 }
                 else {
-                    float sub = N[j + 1] / (URight - Uleft);
-                    N[j] = coeff + (URight - U) * sub;
-                    coeff = (U - Uleft) * sub;
+                    float Ul = param[I + j + 1];
+                    float UR = param[I + j + s + 1];
+                    float sub = B[j + 1] / (UR - Ul);
+                    B[j] = coeff + (UR - U) * sub;
+                    coeff = (U - Ul) * sub;
                 }
             }
         }
-        return N[0];
+        return B[0];
     }
 }
